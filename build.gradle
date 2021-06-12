@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id "edu.sc.seis.launch4j" version "2.5.0"
 }
 
 java {
@@ -39,4 +40,9 @@ jar {
     manifest {
         attributes 'Main-Class': mainClassName
     }
+}
+
+launch4j {
+    mainClassName = mainClassName
+    icon = "${projectDir}/luyten.ico"
 }
