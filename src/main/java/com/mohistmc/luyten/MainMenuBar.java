@@ -565,7 +565,6 @@ public class MainMenuBar extends JMenuBar {
 				pane.add(new JLabel("virustotalop, xtrafrancyz,"));
 				pane.add(new JLabel("mbax, quitten, mstrobel,"));
 				pane.add(new JLabel("FisheyLP, and Syquel"));
-                pane.add(new JLabel("汉化: Mgazul"));
 				pane.add(new JLabel(" "));
 				pane.add(new JLabel("Powered By:"));
 				String procyon = "https://bitbucket.org/mstrobel/procyon";
