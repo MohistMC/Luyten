@@ -9,7 +9,7 @@ java {
 }
 
 group 'com.mohistmc.luyten'
-version '0.1-SNAPSHOT'
+version 'JDK16-0.1-SNAPSHOT'
 
 [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
 
