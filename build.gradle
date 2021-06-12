@@ -2,24 +2,18 @@ plugins {
     id 'java'
 }
 
-group 'org.example'
-version '1.0-SNAPSHOT'
+group 'com.mohistmc.luyten'
+version '0.1-SNAPSHOT'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
-    implementation 'com.fifesoft:rsyntaxtextarea:3.0.4'
+    implementation 'com.fifesoft:rsyntaxtextarea:3.1.2'
     implementation 'com.apple:AppleJavaExtensions:1.4'
     implementation 'org.bitbucket.mstrobel:procyon-core:0.5.36'
     implementation 'org.bitbucket.mstrobel:procyon-expressions:0.5.36'
     implementation 'org.bitbucket.mstrobel:procyon-reflection:0.5.36'
     implementation 'org.bitbucket.mstrobel:procyon-compilertools:0.5.36'
-}
-
-test {
-    useJUnitPlatform()
 }
