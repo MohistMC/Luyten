@@ -5,7 +5,7 @@ plugins {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(16)
+        languageVersion = JavaLanguageVersion.of(17)
     }
 }
 
@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.fifesoft:rsyntaxtextarea:3.1.2'
+    implementation 'com.fifesoft:rsyntaxtextarea:3.1.4'
     implementation 'com.apple:AppleJavaExtensions:1.4'
     implementation 'org.bitbucket.mstrobel:procyon-core:0.5.36'
     implementation 'org.bitbucket.mstrobel:procyon-expressions:0.5.36'
