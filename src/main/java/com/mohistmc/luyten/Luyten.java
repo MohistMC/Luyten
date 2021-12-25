@@ -1,5 +1,8 @@
 package com.mohistmc.luyten;
 
+import com.github.weisj.darklaf.LafManager;
+import com.github.weisj.darklaf.theme.DarculaTheme;
+import com.github.weisj.darklaf.theme.OneDarkTheme;
 import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.Font;
@@ -42,7 +45,6 @@ public class Luyten {
 	private static final List<File> pendingFiles = new ArrayList<>();
 
 	public static void main(String[] args) {
-
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
@@ -58,6 +60,7 @@ public class Luyten {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
+				LafManager.install(new OneDarkTheme());
 				if (!mainWindowRef.compareAndSet(null, new MainWindow(fileFromCommandLine))) {
 					// Already set - so add the files to open
 					openFileInInstance(fileFromCommandLine);
@@ -115,20 +118,7 @@ public class Luyten {
 	}
 
 	public static String getVersion() {
-		String result = "";
-		try {
-			String line;
-			BufferedReader br = new BufferedReader(new InputStreamReader(
-					ClassLoader.getSystemResourceAsStream("META-INF/maven/us.deathmarine/luyten/pom.properties")));
-			while ((line = br.readLine()) != null) {
-				if (line.contains("version"))
-					result = line.split("=")[1];
-			}
-			br.close();
-		} catch (Exception e) {
-			return result;
-		}
-		return result;
+		return "1.0";
 
 	}
 

@@ -601,7 +601,7 @@ public class Model extends JSplitPane {
 
 			this.title = t;
 			this.tabTitle = new JLabel(title);
-
+			this.tabTitle.putClientProperty("html.disable", true);
 			this.createTab();
 		}
 

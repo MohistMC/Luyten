@@ -25,6 +25,7 @@ dependencies {
     implementation 'org.bitbucket.mstrobel:procyon-expressions:0.5.36'
     implementation 'org.bitbucket.mstrobel:procyon-reflection:0.5.36'
     implementation 'org.bitbucket.mstrobel:procyon-compilertools:0.5.36'
+    implementation 'com.github.weisj:darklaf-core:2.7.2'
 }
 
 apply plugin: 'application'

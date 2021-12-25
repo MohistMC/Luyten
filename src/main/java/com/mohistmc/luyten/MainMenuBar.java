@@ -544,12 +544,12 @@ public class MainMenuBar extends JMenuBar {
 			public void actionPerformed(ActionEvent event) {
 				JPanel pane = new JPanel();
 				pane.setLayout(new BoxLayout(pane, BoxLayout.PAGE_AXIS));
-				JLabel title = new JLabel("Luyten " + Luyten.getVersion());
+				JLabel title = new JLabel("Mohist-Luyten " + Luyten.getVersion());
 				title.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
 				pane.add(title);
-				pane.add(new JLabel("by Deathmarine"));
-				String project = "https://github.com/deathmarine/Luyten/";
-				JLabel link = new JLabel("<HTML><FONT color=\"#000099\"><U>" + project + "</U></FONT></HTML>");
+				pane.add(new JLabel("by MohistMC"));
+				String project = "https://github.com/MohistMC/Luyten";
+				JLabel link = new JLabel("<html><font color=\"#03bafc\"><u>" + project + "</u></font></html>");
 				link.setCursor(new Cursor(Cursor.HAND_CURSOR));
 				link.addMouseListener(new LinkListener(project, link));
 				pane.add(link);
@@ -561,19 +561,27 @@ public class MainMenuBar extends JMenuBar {
 				pane.add(new JLabel(" "));
 				pane.add(new JLabel("Powered By:"));
 				String procyon = "https://github.com/mstrobel/procyon";
-				link = new JLabel("<HTML><FONT color=\"#000099\"><U>" + procyon + "</U></FONT></HTML>");
+				link = new JLabel("<html><font color=\"#03bafc\"><u>" + procyon + "</u></font></html>");
 				link.setCursor(new Cursor(Cursor.HAND_CURSOR));
 				link.addMouseListener(new LinkListener(procyon, link));
 				pane.add(link);
 				pane.add(new JLabel("Version: " + Procyon.version()));
 				pane.add(new JLabel("(c) 2021 Mike Strobel"));
 				String rsyntax = "https://github.com/bobbylight/RSyntaxTextArea";
-				link = new JLabel("<HTML><FONT color=\"#000099\"><U>" + rsyntax + "</U></FONT></HTML>");
+				link = new JLabel("<html><font color=\"#03bafc\"><u>" + rsyntax + "</u></font></html>");
 				link.setCursor(new Cursor(Cursor.HAND_CURSOR));
 				link.addMouseListener(new LinkListener(rsyntax, link));
 				pane.add(link);
 				pane.add(new JLabel("Version: 3.1.4"));
 				pane.add(new JLabel("(c) 2021 Robert Futrell"));
+
+				String darkLaf = "https://github.com/weisJ/darklaf/";
+				link = new JLabel("<html><font color=\"#03bafc\"><u>" + darkLaf + "</u></font></html>");
+				link.setCursor(new Cursor(Cursor.HAND_CURSOR));
+				link.addMouseListener(new LinkListener(darkLaf, link));
+				pane.add(link);
+				pane.add(new JLabel("Version: 2.6.1"));
+				pane.add(new JLabel("(c) 2021 Jannis Weis"));
 				pane.add(new JLabel(" "));
 				JOptionPane.showMessageDialog(null, pane);
 			}
@@ -658,12 +666,12 @@ public class MainMenuBar extends JMenuBar {
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			label.setText("<HTML><FONT color=\"#00aa99\"><U>" + link + "</U></FONT></HTML>");
+			label.setText("<html><font color=\"#0078a3\"><u>" + link + "</u></font></html>");
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
-			label.setText("<HTML><FONT color=\"#000099\"><U>" + link + "</U></FONT></HTML>");
+			label.setText("<html><font color=\"#03bafc\"><u>" + link + "</u></font></html>");
 		}
 
 	}

@@ -12,18 +12,27 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 public class CellRenderer extends DefaultTreeCellRenderer {
 	private static final long serialVersionUID = -5691181006363313993L;
 	Icon pack;
-	Icon java_image;
-	Icon yml_image;
-	Icon file_image;
+	Icon classIcon;
+	Icon htmlIcon;
+	Icon cssIcon;
+	Icon textIcon;
+	Icon imageIcon;
+	Icon fileIcon;
 
 	public CellRenderer() {
 		this.pack = new ImageIcon(
 				Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/package_obj.png")));
-		this.java_image = new ImageIcon(
+		this.classIcon = new ImageIcon(
 				Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/java.png")));
-		this.yml_image = new ImageIcon(
+		this.htmlIcon = new ImageIcon(
+				Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/html.png")));
+		this.cssIcon = new ImageIcon(
+				Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/css.png")));
+		this.textIcon = new ImageIcon(
 				Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/yml.png")));
-		this.file_image = new ImageIcon(
+		this.imageIcon = new ImageIcon(
+				Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/image.png")));
+		this.fileIcon = new ImageIcon(
 				Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/file.png")));
 	}
 	
@@ -35,13 +44,19 @@ public class CellRenderer extends DefaultTreeCellRenderer {
 		if (node.getChildCount() > 0) {
 			setIcon(this.pack);
 		} else if (getFileName(node).endsWith(".class") || getFileName(node).endsWith(".java")) {
-			setIcon(this.java_image);
+			setIcon(this.classIcon);
 		} else if (getFileName(node).endsWith(".yml") || getFileName(node).endsWith(".yaml")) {
-			setIcon(this.yml_image);
+			setIcon(this.textIcon);
+		} else if (getFileName(node).endsWith(".html") || getFileName(node).endsWith(".htm")) {
+			setIcon(this.htmlIcon);
+		} else if (getFileName(node).endsWith(".css")) {
+			setIcon(this.cssIcon);
+		} else if (getFileName(node).endsWith(".png") || getFileName(node).endsWith(".jpg") || getFileName(node).endsWith(".jpeg") || getFileName(node).endsWith(".gif") || getFileName(node).endsWith(".svg")) {
+			setIcon(this.imageIcon);
 		} else {
-			setIcon(this.file_image);
+			setIcon(this.fileIcon);
 		}
-
+		putClientProperty("html.disable", true);
 		return this;
 	}
 
