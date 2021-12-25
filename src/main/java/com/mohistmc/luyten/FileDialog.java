@@ -9,9 +9,9 @@ import javax.swing.filechooser.FileFilter;
  * FileChoosers for Open and Save
  */
 public class FileDialog {
-	private ConfigSaver configSaver;
+	private final ConfigSaver configSaver;
 	private LuytenPreferences luytenPrefs;
-	private Component parent;
+	private final Component parent;
 	private JFileChooser fcOpen;
 	private JFileChooser fcSave;
 	private JFileChooser fcSaveAll;
@@ -32,7 +32,7 @@ public class FileDialog {
 				} catch (Exception e) {
 					Luyten.showExceptionDialog("Exception!", e);
 				}
-			};
+			}
 		}.start();
 	}
 
@@ -111,7 +111,7 @@ public class FileDialog {
 		return fc;
 	}
 
-	public class FileChooserFileFilter extends FileFilter {
+	public static class FileChooserFileFilter extends FileFilter {
 		String objType;
 
 		public FileChooserFileFilter(String string) {

@@ -57,9 +57,9 @@ public class FindAllBox extends JDialog {
 	private JProgressBar progressBar;
 	boolean locked;
 
-	private JLabel statusLabel = new JLabel("");
+	private final JLabel statusLabel = new JLabel("");
 
-	private DefaultListModel<String> classesList = new DefaultListModel<String>();
+	private final DefaultListModel<String> classesList = new DefaultListModel<String>();
 
 	private Thread tmp_thread;
 
@@ -81,7 +81,7 @@ public class FindAllBox extends JDialog {
 
 		this.getRootPane().setDefaultButton(findButton);
 
-		list = new JList<String>(classesList);
+		list = new JList<>(classesList);
 		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		list.setLayoutOrientation(JList.VERTICAL_WRAP);
 		list.setVisibleRowCount(-1);
@@ -91,7 +91,7 @@ public class FindAllBox extends JDialog {
 				JList<String> list = (JList<String>) evt.getSource();
 				if (evt.getClickCount() == 2) {
 					int index = list.locationToIndex(evt.getPoint());
-					String entryName = (String) list.getModel().getElementAt(index);
+					String entryName = list.getModel().getElementAt(index);
 					String[] array = entryName.split("/");
 					if (entryName.toLowerCase().endsWith(".class")) {
 						String internalName = StringUtilities.removeRight(entryName, ".class");
@@ -110,8 +110,6 @@ public class FindAllBox extends JDialog {
 									jfile.getInputStream(jfile.getEntry(entryName)), array[array.length - 1],
 									entryName);
 							jfile.close();
-						} catch (IOException e) {
-							e.printStackTrace();
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -216,23 +214,38 @@ public class FindAllBox extends JDialog {
 									if (entry.getName().endsWith(".class")) {
 										synchronized (settings) {
 											String internalName = StringUtilities.removeRight(entry.getName(), ".class");
-											TypeReference type = Model.metadataSystem.lookupType(internalName);
-											TypeDefinition resolvedType = null;
-											if (type == null || ((resolvedType = type.resolve()) == null)) {
-												throw new Exception("Unable to resolve type.");
+											TypeReference type;
+											try {
+												type = Model.metadataSystem.lookupType(internalName);
+												TypeDefinition resolvedType = null;
+												if (type != null && ((resolvedType = type.resolve()) != null)) {
+													StringWriter stringwriter = new StringWriter();
+													DecompilationOptions decompilationOptions;
+													decompilationOptions = new DecompilationOptions();
+													decompilationOptions.setSettings(settings);
+													decompilationOptions.setFullDecompilation(true);
+													PlainTextOutput plainTextOutput = new PlainTextOutput(stringwriter);
+													plainTextOutput.setUnicodeOutputEnabled(
+															decompilationOptions.getSettings().isUnicodeOutputEnabled());
+													settings.getLanguage().decompileType(resolvedType, plainTextOutput,
+															decompilationOptions);
+													if (search(stringwriter.toString()))
+														addClassName(entry.getName());
+												}
+											} catch (IllegalStateException ise) {
+												if (ise.getMessage().contains("Invalid BootstrapMethods attribute entry: 2 additional arguments required for method java/lang/invoke/StringConcatFactory.makeConcatWithConstants, but only 1 specified.")) {
+													// Known issue of Procyon <= 0.5.35 and fix not yet released, refer to https://bitbucket.org/mstrobel/procyon/issues/336/
+													// Searching in a WAR or JAR file could pop-up a lot of error dialogs for a lot of class files, we simply say nothing here
+													addClassName(entry.getName() + "  (search failed due to known Exception in Procyon <= 0.5.35. Opening file will fail too)");
+												} else {
+													// all other IllegalStateException cases
+													addClassName(entry.getName() + "  (search failed due to Exception. Opening file will fail too)");
+													Luyten.showExceptionDialog("Caught Exception on: " + entry.getName(), ise);
+												}
+											} catch (Exception e) {
+												addClassName(entry.getName() + "  (search failed due to Exception. Opening file will fail too)");
+												Luyten.showExceptionDialog("Caught Exception on: " + entry.getName(), e);
 											}
-											StringWriter stringwriter = new StringWriter();
-											DecompilationOptions decompilationOptions;
-											decompilationOptions = new DecompilationOptions();
-											decompilationOptions.setSettings(settings);
-											decompilationOptions.setFullDecompilation(true);
-											PlainTextOutput plainTextOutput = new PlainTextOutput(stringwriter);
-											plainTextOutput.setUnicodeOutputEnabled(
-													decompilationOptions.getSettings().isUnicodeOutputEnabled());
-											settings.getLanguage().decompileType(resolvedType, plainTextOutput,
-													decompilationOptions);
-											if (search(stringwriter.toString()))
-												addClassName(entry.getName());
 										}
 									} else {
 
@@ -240,7 +253,7 @@ public class FindAllBox extends JDialog {
 										long nonprintableCharactersCount = 0;
 										try (InputStreamReader inputStreamReader = new InputStreamReader(
 												jfile.getInputStream(entry), StandardCharsets.UTF_8);
-											 BufferedReader reader = new BufferedReader(inputStreamReader);) {
+											 BufferedReader reader = new BufferedReader(inputStreamReader)) {
 											String line;
 											while ((line = reader.readLine()) != null) {
 												sb.append(line).append("\n");
@@ -290,9 +303,7 @@ public class FindAllBox extends JDialog {
 			a = a.toLowerCase();
 			b = b.toLowerCase();
 		}
-		if (b.contains(a))
-			return true;
-		return false;
+		return b.contains(a);
 	}
 
 	private void setHideOnEscapeButton() {

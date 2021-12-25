@@ -33,7 +33,7 @@ public class ConfigSaver {
 	private WindowPosition findWindowPosition;
 	private LuytenPreferences luytenPreferences;
 
-	private static ConfigSaver theLoadedInstance;
+	private static volatile ConfigSaver theLoadedInstance;
 
 	/**
 	 * Do not instantiate, get the loaded instance

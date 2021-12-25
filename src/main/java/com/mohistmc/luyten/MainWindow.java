@@ -221,22 +221,6 @@ public class MainWindow extends JFrame {
 		}
 	}
 
-	public void onLegalMenu() {
-		new Thread() {
-			public void run() {
-				try {
-					bar.setVisible(true);
-					bar.setIndeterminate(true);
-					String legalStr = getLegalStr();
-					MainWindow.this.getModel().showLegal(legalStr);
-				} finally {
-					bar.setIndeterminate(false);
-					bar.setVisible(false);
-				}
-			}
-		}.start();
-	}
-
 	public void onListLoadedClasses() {
 		try {
 			StringBuilder sb = new StringBuilder();
@@ -244,9 +228,9 @@ public class MainWindow extends JFrame {
 			bar.setVisible(true);
 			bar.setIndeterminate(true);
 			while (myCL != null) {
-				sb.append("ClassLoader: " + myCL + "\n");
+				sb.append("ClassLoader: ").append(myCL).append("\n");
 				for (Iterator<?> iter = list(myCL); iter.hasNext();) {
-					sb.append("\t" + iter.next() + "\n");
+					sb.append("\t").append(iter.next()).append("\n");
 				}
 				myCL = myCL.getParent();
 			}
