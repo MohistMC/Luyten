@@ -1,5 +1,9 @@
 package com.mohistmc.luyten;
 
+import com.strobel.Procyon;
+import com.strobel.decompiler.DecompilerSettings;
+import com.strobel.decompiler.languages.Language;
+import com.strobel.decompiler.languages.Languages;
 import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.Font;
@@ -16,7 +20,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.ListIterator;
 import java.util.Map;
-
 import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
 import javax.swing.BoxLayout;
@@ -33,11 +36,6 @@ import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 import javax.swing.text.DefaultEditorKit;
-
-import com.strobel.Procyon;
-import com.strobel.decompiler.DecompilerSettings;
-import com.strobel.decompiler.languages.Language;
-import com.strobel.decompiler.languages.Languages;
 
 /**
  * Main menu (only MainWindow should be called from here)

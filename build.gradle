@@ -10,7 +10,7 @@ java {
 }
 
 group 'com.mohistmc.luyten'
-version 'JDK16-0.1-SNAPSHOT'
+version 'JDK17-1.0-SNAPSHOT'
 
 [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
 
@@ -35,8 +35,9 @@ application {
 }
 
 jar {
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
     from {
-        configurations.compileClasspath.collect{zipTree(it)}
+        configurations.runtimeClasspath.collect{it.isDirectory() ? it : zipTree(it)}
     }
     manifest {
         attributes 'Main-Class': mainClassName
