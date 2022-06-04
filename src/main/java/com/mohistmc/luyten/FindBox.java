@@ -54,7 +54,7 @@ public class FindBox extends JDialog {
 		JLabel label = new JLabel("Find What:");
 		textField = new JTextField();
 
-		RSyntaxTextArea pane = mainWindow.getModel().getCurrentTextArea();
+		RSyntaxTextArea pane = mainWindow.getSelectedModel().getCurrentTextArea();
 		if (pane != null) {
 			textField.setText(pane.getSelectedText());
 		}
@@ -62,7 +62,7 @@ public class FindBox extends JDialog {
 		regex = new JCheckBox("Regex");
 		wholew = new JCheckBox("Whole Words");
 		reverse = new JCheckBox("Search Backwards");
-		wrap = new JCheckBox("Wrap", true);
+		wrap = new JCheckBox("Wrap");
 
 		findButton = new JButton("Find");
 		findButton.addActionListener(new FindButton());
@@ -132,7 +132,7 @@ public class FindBox extends JDialog {
 			if (textField.getText().length() == 0)
 				return;
 
-			RSyntaxTextArea pane = mainWindow.getModel().getCurrentTextArea();
+			RSyntaxTextArea pane = mainWindow.getSelectedModel().getCurrentTextArea();
 			if (pane == null)
 				return;
 
@@ -207,7 +207,7 @@ public class FindBox extends JDialog {
 		public void actionPerformed(ActionEvent e) {
 			if (textField.getText().length() == 0)
 				return;
-			RSyntaxTextArea pane = mainWindow.getModel().getCurrentTextArea();
+			RSyntaxTextArea pane = mainWindow.getSelectedModel().getCurrentTextArea();
 			if (pane == null)
 				return;
 			SearchContext context = new SearchContext();

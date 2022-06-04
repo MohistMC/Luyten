@@ -272,7 +272,7 @@ public class DecompilerLinkProvider implements LinkProvider {
 		List<FieldDefinition> declaredFields = typeDef.getDeclaredFields();
 		if (declaredFields == null)
 			return null;
-		boolean isFound = false;
+		boolean isFound;
 		for (FieldDefinition declaredField : declaredFields) {
 			isFound = (declaredField != null && fieldName.equals(declaredField.getName()));
 			if (isFound) {

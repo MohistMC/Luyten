@@ -165,7 +165,7 @@ public class MainMenuBar extends JMenuBar {
 			menuItem.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					mainWindow.getModel().loadFile(file);
+					mainWindow.getSelectedModel().loadFile(file);
 				}
 			});
 			recentFiles.add(menuItem);
@@ -194,12 +194,12 @@ public class MainMenuBar extends JMenuBar {
 		menuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JTabbedPane house = mainWindow.getModel().house;
+				JTabbedPane house = mainWindow.getSelectedModel().house;
 				
 				if (e.getModifiers() != InputEvent.CTRL_MASK || house.getTabCount() == 0)
 					mainWindow.onCloseFileMenu();
 				else {
-					mainWindow.getModel().closeOpenTab(house.getSelectedIndex());
+					mainWindow.getSelectedModel().closeOpenTab(house.getSelectedIndex());
 				}
 			}
 		});
@@ -247,7 +247,7 @@ public class MainMenuBar extends JMenuBar {
 
 		// Only add the exit command for non-OS X. OS X handles its close
 		// automatically
-		if (!("true".equals(System.getProperty("us.deathmarine.luyten.Luyten.running_in_osx")))) {
+		if (!("true".equals(System.getProperty("com.mohistmc.luyten.Luyten.running_in_osx")))) {
 			menuItem = new JMenuItem("Exit");
 			menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_MASK));
 			menuItem.addActionListener(new ActionListener() {
@@ -542,7 +542,7 @@ public class MainMenuBar extends JMenuBar {
 			public void actionPerformed(ActionEvent event) {
 				JPanel pane = new JPanel();
 				pane.setLayout(new BoxLayout(pane, BoxLayout.PAGE_AXIS));
-				JLabel title = new JLabel("Mohist-Luyten " + Luyten.getVersion());
+				JLabel title = new JLabel("Mohist-Luyten " + Luyten.VERSION);
 				title.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
 				pane.add(title);
 				pane.add(new JLabel("by MohistMC"));
@@ -570,7 +570,7 @@ public class MainMenuBar extends JMenuBar {
 				link.setCursor(new Cursor(Cursor.HAND_CURSOR));
 				link.addMouseListener(new LinkListener(rsyntax, link));
 				pane.add(link);
-				pane.add(new JLabel("Version: 3.1.4"));
+				pane.add(new JLabel("Version: 3.2.0"));
 				pane.add(new JLabel("(c) 2021 Robert Futrell"));
 
 				String darkLaf = "https://github.com/weisJ/darklaf/";

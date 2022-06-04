@@ -18,9 +18,9 @@ import java.util.List;
  * Drag-Drop (only MainWindow should be called from here)
  */
 public class DropListener implements DropTargetListener {
-	private final MainWindow mainWindow;
+	private final com.mohistmc.luyten.MainWindow mainWindow;
 
-	public DropListener(MainWindow mainWindow) {
+	public DropListener(com.mohistmc.luyten.MainWindow mainWindow) {
 		this.mainWindow = mainWindow;
 	}
 
@@ -35,13 +35,7 @@ public class DropListener implements DropTargetListener {
 				try {
 					if (flavor.isFlavorJavaFileListType()) {
 						List<File> files = (List<File>) transferable.getTransferData(flavor);
-						if (files.size() > 1) {
-							event.rejectDrop();
-							return;
-						}
-						if (files.size() == 1) {
-							mainWindow.onFileDropped(files.get(0));
-						}
+						mainWindow.onFilesDropped(files);
 					}
 				} catch (Exception e) {
 					Luyten.showExceptionDialog("Exception!", e);
