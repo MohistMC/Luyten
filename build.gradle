@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id "edu.sc.seis.launch4j" version "2.5.4"
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 java {
@@ -50,8 +51,11 @@ jar {
     }
 }
 
+jar.dependsOn(shadowJar)
+
 
 launch4j {
     mainClassName = mainClassName
     icon = "${projectDir}/luyten.ico"
+    jarTask = project.tasks.shadowJar
 }
