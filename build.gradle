@@ -26,6 +26,7 @@ dependencies {
     implementation 'org.bitbucket.mstrobel:procyon-reflection:0.6.0'
     implementation 'org.bitbucket.mstrobel:procyon-compilertools:0.6.0'
     implementation 'com.github.weisj:darklaf-core:3.0.2'
+    implementation 'com.taobao.arthas:arthas-common:3.6.7'
 }
 
 apply plugin: 'application'
@@ -37,12 +38,18 @@ application {
 jar {
     duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
     from {
-        configurations.runtimeClasspath.collect{it.isDirectory() ? it : zipTree(it)}
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
+
     manifest {
-        attributes 'Main-Class': mainClassName
+        attributes(
+                'Premain-Class': 'com.mohistmc.luyten.JarLoader',
+                'Launcher-Agent-Class': 'com.mohistmc.luyten.JarLoader',
+                'Main-Class': mainClassName
+        )
     }
 }
+
 
 launch4j {
     mainClassName = mainClassName

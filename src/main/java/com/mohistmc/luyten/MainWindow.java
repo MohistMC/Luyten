@@ -309,9 +309,8 @@ public class MainWindow extends JFrame {
             bar.setIndeterminate(true);
             while (myCL != null) {
                 sb.append("ClassLoader: ").append(myCL).append("\n");
-                Iterator<?> iter = list(myCL);
-                while (iter != null && iter.hasNext()) {
-                    sb.append("\t").append(iter.next()).append("\n");
+                for (Class<?> clasz : JarLoader.getAllClassLoader()) {
+                    sb.append("\t").append(clasz).append("\n");
                 }
                 myCL = myCL.getParent();
             }
@@ -320,23 +319,6 @@ public class MainWindow extends JFrame {
             bar.setIndeterminate(false);
             bar.setVisible(false);
         }
-    }
-
-    private static Iterator<?> list(ClassLoader CL) {
-        Class<?> CL_class = CL.getClass();
-        while (CL_class != ClassLoader.class) {
-            CL_class = CL_class.getSuperclass();
-        }
-        Field ClassLoader_classes_field;
-        try {
-            ClassLoader_classes_field = CL_class.getDeclaredField("classes");
-            ClassLoader_classes_field.setAccessible(true);
-            Iterable<?> classes = (Iterable<?>) ClassLoader_classes_field.get(CL);
-            return classes.iterator();
-        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
-            Luyten.showExceptionDialog("Exception!", e);
-        }
-        return null;
     }
 
     private String getLegalStr() {
