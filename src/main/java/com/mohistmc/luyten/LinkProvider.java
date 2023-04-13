@@ -1,5 +1,7 @@
 package com.mohistmc.luyten;
 
+import com.strobel.assembler.metadata.TypeDefinition;
+
 import java.util.Map;
 import java.util.Set;
 
@@ -18,5 +20,7 @@ public interface LinkProvider {
 	boolean isLinkNavigable(String uniqueStr);
 
 	String getLinkDescription(String uniqueStr);
+
+	void setType(TypeDefinition type, Model model);
 
 }

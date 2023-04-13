@@ -81,11 +81,13 @@ public class OpenFile implements SyntaxConstants {
 	private DecompilerSettings settings;
 	private DecompilationOptions decompilationOptions;
 	private TypeDefinition type;
+	private final Model model;
 
-	public OpenFile(String name, String path, Theme theme, final MainWindow mainWindow) {
+	public OpenFile(String name, String path, Theme theme, final MainWindow mainWindow, Model model) {
 		this.name = name;
 		this.path = path;
 		this.mainWindow = mainWindow;
+		this.model = model;
 
 		configSaver = ConfigSaver.getLoadedInstance();
 		luytenPrefs = configSaver.getLuytenPreferences();
@@ -458,7 +460,7 @@ public class OpenFile implements SyntaxConstants {
 		this.invalidateContent();
 		// synchronized: do not accept changes from menu while running
 		synchronized (settings) {
-			if (Languages.java().getName().equals(settings.getLanguage().getName())) {
+			if (Languages.java().getName().equals(settings.getLanguage().getName()) || luytenPrefs.getDecompiler() != Decompiler.PROCYON) {
 				decompileWithNavigationLinks();
 			} else {
 				decompileWithoutLinks();
@@ -481,9 +483,10 @@ public class OpenFile implements SyntaxConstants {
 
 	private void decompileWithNavigationLinks() {
 		this.invalidateContent();
-		DecompilerLinkProvider newLinkProvider = new DecompilerLinkProvider();
-		newLinkProvider.setDecompilerReferences(metadataSystem, settings, decompilationOptions);
-		newLinkProvider.setType(type);
+		LinkProvider newLinkProvider = luytenPrefs.getDecompiler().linkProviderSupplier.get();
+		if (newLinkProvider instanceof ProcyonLinkProvider)
+			((ProcyonLinkProvider) newLinkProvider).setDecompilerReferences(metadataSystem, settings, decompilationOptions);
+		newLinkProvider.setType(type, model);
 		linkProvider = newLinkProvider;
 
 		linkProvider.generateContent();
@@ -760,6 +763,10 @@ public class OpenFile implements SyntaxConstants {
 
 	public void setType(TypeDefinition type) {
 		this.type = type;
+	}
+
+	public Model getModel() {
+		return model;
 	}
 
 	public boolean isContentValid() {

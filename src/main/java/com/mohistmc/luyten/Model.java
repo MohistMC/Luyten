@@ -40,6 +40,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
+import java.lang.reflect.GenericSignatureFormatError;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -197,7 +198,7 @@ public class Model extends JSplitPane {
     }
 
     public void show(String name, String contents) {
-        OpenFile open = new OpenFile(name, "*/" + name, getTheme(), mainWindow);
+        OpenFile open = new OpenFile(name, "*/" + name, getTheme(), mainWindow, this);
         open.setContent(contents);
         hmap.add(open);
         addOrSwitchToTab(open);
@@ -285,7 +286,12 @@ public class Model extends JSplitPane {
             if (!isLeaf)
                 return;
 
-            new Thread(() -> openEntryByTreePath(trp)).start();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    openEntryByTreePath(trp);
+                }
+            }).start();
         }
     }
 
@@ -355,8 +361,12 @@ public class Model extends JSplitPane {
                     if (entryName.endsWith(".class")) {
                         getLabel().setText("Extracting: " + name);
                         String internalName = StringUtilities.removeRight(entryName, ".class");
-                        TypeReference type = metadataSystem.lookupType(internalName);
-                        extractClassToTextPane(type, name, path.toString(), null);
+                        try {
+                            TypeReference type = metadataSystem.lookupType(internalName);
+                            extractClassToTextPane(type, name, path.toString(), null);
+                        } catch (GenericSignatureFormatError e) {
+                            e.printStackTrace();
+                        }
                     } else {
                         getLabel().setText("Opening: " + name);
                         try (InputStream in = state.jarFile.getInputStream(entry)) {
@@ -372,8 +382,12 @@ public class Model extends JSplitPane {
                 }
                 if (name.endsWith(".class")) {
                     getLabel().setText("Extracting: " + name);
-                    TypeReference type = metadataSystem.lookupType(path.toString());
-                    extractClassToTextPane(type, name, path.toString(), null);
+                    try {
+                        TypeReference type = metadataSystem.lookupType(path.toString());
+                        extractClassToTextPane(type, name, path.toString(), null);
+                    } catch (GenericSignatureFormatError e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     getLabel().setText("Opening: " + name);
                     try (InputStream in = new FileInputStream(file)) {
@@ -404,7 +418,7 @@ public class Model extends JSplitPane {
         }
         OpenFile sameTitledOpen = null;
         for (OpenFile nextOpen : hmap) {
-            if (tabTitle.equals(nextOpen.name) && path.equals(nextOpen.path) && type.equals(nextOpen.getType())) {
+            if (tabTitle.equals(nextOpen.name) && path.equals(nextOpen.path)) {
                 sameTitledOpen = nextOpen;
                 break;
             }
@@ -432,7 +446,7 @@ public class Model extends JSplitPane {
             sameTitledOpen.decompile();
             addOrSwitchToTab(sameTitledOpen);
         } else {
-            OpenFile open = new OpenFile(tabTitle, path, getTheme(), mainWindow);
+            OpenFile open = new OpenFile(tabTitle, path, getTheme(), mainWindow, this);
             open.setDecompilerReferences(metadataSystem, settings, decompilationOptions);
             open.setType(resolvedType);
             open.setInitialNavigationLink(navigationLink);
@@ -481,7 +495,7 @@ public class Model extends JSplitPane {
         }
 
         // open tab
-        OpenFile open = new OpenFile(tabTitle, path, getTheme(), mainWindow);
+        OpenFile open = new OpenFile(tabTitle, path, getTheme(), mainWindow, this);
         open.setDecompilerReferences(metadataSystem, settings, decompilationOptions);
         open.setContent(sb.toString());
         hmap.add(open);
@@ -588,6 +602,7 @@ public class Model extends JSplitPane {
             super(new GridBagLayout());
             this.setOpaque(false);
             this.tabTitle = new JLabel(title);
+            this.tabTitle.putClientProperty("html.disable", true);
             this.createTab();
 
             // TODO: Disables tab switching... Is there a workaround?
@@ -962,7 +977,7 @@ public class Model extends JSplitPane {
                         .setUnicodeOutputEnabled(decompilationOptions.getSettings().isUnicodeOutputEnabled());
                 settings.getLanguage().decompileType(resolvedType, plainTextOutput, decompilationOptions);
                 String decompiledSource = stringwriter.toString();
-                OpenFile open = new OpenFile(internalName, "*/" + internalName, getTheme(), mainWindow);
+                OpenFile open = new OpenFile(internalName, "*/" + internalName, getTheme(), mainWindow, this);
                 open.setContent(decompiledSource);
                 JTabbedPane pane = new JTabbedPane();
                 pane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);

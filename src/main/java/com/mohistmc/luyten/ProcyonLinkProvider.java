@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class DecompilerLinkProvider implements LinkProvider {
+public class ProcyonLinkProvider implements LinkProvider {
 
 	private Map<String, Selection> definitionToSelectionMap = new HashMap<>();
 	private Map<String, Set<Selection>> referenceToSelectionsMap = new HashMap<>();
@@ -376,7 +376,8 @@ public class DecompilerLinkProvider implements LinkProvider {
 		this.decompilationOptions = decompilationOptions;
 	}
 
-	public void setType(TypeDefinition type) {
+	@Override
+	public void setType(TypeDefinition type, Model model) {
 		this.type = type;
 	}
 }

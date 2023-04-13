@@ -127,6 +127,9 @@ public class ConfigSaver {
 			} else if (field.getType() == Integer.class || field.getType() == int.class) {
 				Integer defaultInt = (Integer) (defaultVal == null ? Integer.valueOf(0) : defaultVal);
 				field.setInt(newLuytenPrefs, prefs.getInt(prefId, defaultInt));
+			} else if (field.getType().isEnum()) {
+				//noinspection unchecked,rawtypes
+				field.set(newLuytenPrefs, Enum.valueOf((Class<Enum>) field.getType(), prefs.get(prefId, defaultVal.toString())));
 			}
 		}
 		return newLuytenPrefs;
@@ -181,6 +184,8 @@ public class ConfigSaver {
 
 			} else if (field.getType() == Integer.class || field.getType() == int.class) {
 				prefs.putInt(prefId, (Integer) (value == null ? Integer.valueOf(0) : value));
+			} else if (field.getType().isEnum()) {
+				prefs.put(prefId, ((Enum<?>) value).name());
 			}
 		}
 	}

@@ -10,8 +10,10 @@ package com.mohistmc.luyten;
 public class LuytenPreferences {
 	public static final String THEME_XML_PATH = "/org/fife/ui/rsyntaxtextarea/themes/";
 	public static final String DEFAULT_THEME_XML = "eclipse.xml";
+	public static final Decompiler DEFAULT_DECOMPILER = Decompiler.CFR;
 
 	private String themeXml = DEFAULT_THEME_XML;
+	private Decompiler decompiler = DEFAULT_DECOMPILER;
 	private String fileOpenCurrentDirectory = "";
 	private String fileSaveCurrentDirectory = "";
 	private int font_size = 10;
@@ -27,6 +29,14 @@ public class LuytenPreferences {
 
 	public void setThemeXml(String themeXml) {
 		this.themeXml = themeXml;
+	}
+
+	public Decompiler getDecompiler() {
+		return decompiler;
+	}
+
+	public void setDecompiler(Decompiler decompiler) {
+		this.decompiler = decompiler;
 	}
 
 	public String getFileOpenCurrentDirectory() {

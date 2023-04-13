@@ -6,7 +6,7 @@ plugins {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(19)
     }
 }
 
@@ -19,6 +19,8 @@ tasks.withType(JavaCompile).configureEach {
 
 repositories {
     mavenCentral()
+    maven { url = "https://jitpack.io" }
+    maven { url = "https://maven.quiltmc.org/repository/release/" }
 }
 
 dependencies {
@@ -30,6 +32,8 @@ dependencies {
     implementation 'org.bitbucket.mstrobel:procyon-compilertools:0.6.0'
     implementation 'com.github.weisj:darklaf-core:3.0.2'
     implementation 'com.taobao.arthas:arthas-common:3.6.7'
+    implementation 'com.github.leibnitz27:cfr:0.152'
+    implementation 'org.quiltmc:quiltflower:1.9.0'
 }
 
 apply plugin: 'application'
