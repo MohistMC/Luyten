@@ -1,7 +1,7 @@
 package com.mohistmc.luyten;
 
-import java.io.File;
 import javax.swing.JFileChooser;
+import java.io.File;
 
 class DirPreferences {
 

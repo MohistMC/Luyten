@@ -28,9 +28,11 @@ public class JarLoader {
 
     public JarLoader() {
     }
+
     public static void agentmain(final String a, final Instrumentation inst) {
         JarLoader.instrumentation = inst;
     }
+
     public static void premain(String agentArgs, Instrumentation inst) {
         JarLoader.instrumentation = inst;
     }

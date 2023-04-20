@@ -1,10 +1,5 @@
 package com.mohistmc.luyten;
 
-import com.mohistmc.luyten.ConfigSaver;
-import com.mohistmc.luyten.JarEntryFilter;
-import com.mohistmc.luyten.Luyten;
-import com.mohistmc.luyten.LuytenPreferences;
-import com.mohistmc.luyten.LuytenTypeLoader;
 import com.strobel.assembler.metadata.ITypeLoader;
 import com.strobel.assembler.metadata.JarTypeLoader;
 import com.strobel.assembler.metadata.MetadataSystem;
@@ -15,6 +10,12 @@ import com.strobel.decompiler.DecompilationOptions;
 import com.strobel.decompiler.DecompilerSettings;
 import com.strobel.decompiler.PlainTextOutput;
 import com.strobel.decompiler.languages.java.JavaFormattingOptions;
+
+import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import javax.swing.JProgressBar;
+import javax.swing.SwingUtilities;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.BufferedOutputStream;
@@ -35,11 +36,6 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.zip.ZipException;
 import java.util.zip.ZipOutputStream;
-import javax.swing.JLabel;
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
-import javax.swing.JProgressBar;
-import javax.swing.SwingUtilities;
 
 /**
  * Performs Save and Save All

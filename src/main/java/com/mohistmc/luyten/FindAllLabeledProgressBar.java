@@ -1,8 +1,8 @@
 package com.mohistmc.luyten;
 
-import java.io.Serializable;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
+import java.io.Serializable;
 
 public class FindAllLabeledProgressBar implements Serializable {
 

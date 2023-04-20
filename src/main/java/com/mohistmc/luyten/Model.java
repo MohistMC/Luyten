@@ -1,19 +1,5 @@
 package com.mohistmc.luyten;
 
-import com.mohistmc.luyten.Closer;
-import com.mohistmc.luyten.ConfigSaver;
-import com.mohistmc.luyten.FileEntryNotFoundException;
-import com.mohistmc.luyten.FileIsBinaryException;
-import com.mohistmc.luyten.JarEntryFilter;
-import com.mohistmc.luyten.Luyten;
-import com.mohistmc.luyten.LuytenPreferences;
-import com.mohistmc.luyten.LuytenTypeLoader;
-import com.mohistmc.luyten.MainWindow;
-import com.mohistmc.luyten.OpenFile;
-import com.mohistmc.luyten.RecentFiles;
-import com.mohistmc.luyten.TooLargeFileException;
-import com.mohistmc.luyten.TreeNodeUserObject;
-import com.mohistmc.luyten.TreeUtil;
 import com.strobel.assembler.InputTypeLoader;
 import com.strobel.assembler.metadata.ITypeLoader;
 import com.strobel.assembler.metadata.JarTypeLoader;
@@ -25,6 +11,33 @@ import com.strobel.core.VerifyArgument;
 import com.strobel.decompiler.DecompilationOptions;
 import com.strobel.decompiler.DecompilerSettings;
 import com.strobel.decompiler.PlainTextOutput;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.Theme;
+import org.fife.ui.rtextarea.RTextScrollPane;
+
+import javax.swing.AbstractAction;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTree;
+import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.TreeExpansionEvent;
+import javax.swing.event.TreeExpansionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeSelectionModel;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -53,32 +66,6 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-import javax.swing.AbstractAction;
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTree;
-import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.TreeExpansionEvent;
-import javax.swing.event.TreeExpansionListener;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreePath;
-import javax.swing.tree.TreeSelectionModel;
-import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
-import org.fife.ui.rsyntaxtextarea.Theme;
-import org.fife.ui.rtextarea.RTextScrollPane;
 
 /**
  * Jar-level model
@@ -600,18 +587,18 @@ public class Model extends JSplitPane {
             this.createTab();
 
             // TODO: Disables tab switching... Is there a workaround?
-			/*addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					if (onCloseTabAction != null && SwingUtilities.isMiddleMouseButton(e)) {
-						try {
-							onCloseTabAction.run();
-						} catch (Exception ex) {
-							Luyten.showExceptionDialog("Exception!", ex);
-						}
-					}
-				}
-			});*/
+            /*addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (onCloseTabAction != null && SwingUtilities.isMiddleMouseButton(e)) {
+                        try {
+                            onCloseTabAction.run();
+                        } catch (Exception ex) {
+                            Luyten.showExceptionDialog("Exception!", ex);
+                        }
+                    }
+                }
+            });*/
 
             closeButton.addMouseListener(new MouseAdapter() {
                 @Override

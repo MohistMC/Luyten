@@ -1,9 +1,10 @@
 package com.mohistmc.luyten;
 
-import java.io.File;
 import org.fife.ui.rsyntaxtextarea.FileTypeUtil;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+
+import java.io.File;
 
 public final class FileUtil {
 
