@@ -21,17 +21,15 @@ public class FileDialog {
 		configSaver = ConfigSaver.getLoadedInstance();
 		luytenPrefs = configSaver.getLuytenPreferences();
 
-		new Thread() {
-			public void run() {
-				try {
-					initOpenDialog();
-					initSaveAllDialog();
-					initSaveDialog();
-				} catch (Exception e) {
-					Luyten.showExceptionDialog("Exception!", e);
-				}
+		new Thread(() -> {
+			try {
+				initOpenDialog();
+				initSaveAllDialog();
+				initSaveDialog();
+			} catch (Exception e) {
+				Luyten.showExceptionDialog("Exception!", e);
 			}
-		}.start();
+		}).start();
 	}
 
 	public File doOpenDialog() {

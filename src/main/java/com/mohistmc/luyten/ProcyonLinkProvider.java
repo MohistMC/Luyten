@@ -101,20 +101,17 @@ public class ProcyonLinkProvider implements LinkProvider {
 
 	private String createUniqueStrForReference(Object reference) {
 		String uniqueStr = null;
-		if (reference instanceof TypeReference) {
-			TypeReference type = (TypeReference) reference;
+		if (reference instanceof TypeReference type) {
 			String pathAndTypeStr = getPathAndTypeStr(type);
 			if (pathAndTypeStr != null) {
 				uniqueStr = "type|" + pathAndTypeStr;
 			}
-		} else if (reference instanceof MethodReference) {
-			MethodReference method = (MethodReference) reference;
+		} else if (reference instanceof MethodReference method) {
 			String pathAndTypeStr = getPathAndTypeStr(method.getDeclaringType());
 			if (pathAndTypeStr != null) {
 				uniqueStr = "method|" + pathAndTypeStr + "|" + method.getName() + "|" + method.getErasedSignature();
 			}
-		} else if (reference instanceof FieldReference) {
-			FieldReference field = (FieldReference) reference;
+		} else if (reference instanceof FieldReference field) {
 			String pathAndTypeStr = getPathAndTypeStr(field.getDeclaringType());
 			if (pathAndTypeStr != null) {
 				uniqueStr = "field|" + pathAndTypeStr + "|" + field.getName();

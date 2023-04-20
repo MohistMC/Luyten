@@ -66,17 +66,14 @@ public class Luyten{
         // .zip or .jar)
         final File fileFromCommandLine = getFileFromCommandLine(args);
 
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                LafManager.install(new OneDarkTheme());
-                if (!mainWindowRef.compareAndSet(null, new MainWindow(fileFromCommandLine))) {
-                    // Already set - so add the files to open
-                    openFileInInstance(fileFromCommandLine);
-                }
-                processPendingFiles();
-                mainWindowRef.get().setVisible(true);
+        SwingUtilities.invokeLater(() -> {
+            LafManager.install(new OneDarkTheme());
+            if (!mainWindowRef.compareAndSet(null, new MainWindow(fileFromCommandLine))) {
+                // Already set - so add the files to open
+                openFileInInstance(fileFromCommandLine);
             }
+            processPendingFiles();
+            mainWindowRef.get().setVisible(true);
         });
     }
 

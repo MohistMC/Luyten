@@ -473,23 +473,23 @@ public class JFontChooser extends JComponent {
 		public void keyPressed(KeyEvent e) {
 			int i;
 			switch (e.getKeyCode()) {
-			case KeyEvent.VK_UP:
-				i = targetList.getSelectedIndex() - 1;
-				if (i < 0) {
-					i = 0;
+				case KeyEvent.VK_UP -> {
+					i = targetList.getSelectedIndex() - 1;
+					if (i < 0) {
+						i = 0;
+					}
+					targetList.setSelectedIndex(i);
 				}
-				targetList.setSelectedIndex(i);
-				break;
-			case KeyEvent.VK_DOWN:
-				int listSize = targetList.getModel().getSize();
-				i = targetList.getSelectedIndex() + 1;
-				if (i >= listSize) {
-					i = listSize - 1;
+				case KeyEvent.VK_DOWN -> {
+					int listSize = targetList.getModel().getSize();
+					i = targetList.getSelectedIndex() + 1;
+					if (i >= listSize) {
+						i = listSize - 1;
+					}
+					targetList.setSelectedIndex(i);
 				}
-				targetList.setSelectedIndex(i);
-				break;
-			default:
-				break;
+				default -> {
+				}
 			}
 		}
 	}

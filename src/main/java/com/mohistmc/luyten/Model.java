@@ -286,12 +286,7 @@ public class Model extends JSplitPane {
             if (!isLeaf)
                 return;
 
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    openEntryByTreePath(trp);
-                }
-            }).start();
+            new Thread(() -> openEntryByTreePath(trp)).start();
         }
     }
 
@@ -301,11 +296,10 @@ public class Model extends JSplitPane {
             final TreePath treePath = event.getPath();
 
             final Object expandedTreePathObject = treePath.getLastPathComponent();
-            if (!(expandedTreePathObject instanceof TreeNode)) {
+            if (!(expandedTreePathObject instanceof TreeNode expandedTreeNode)) {
                 return;
             }
 
-            final TreeNode expandedTreeNode = (TreeNode) expandedTreePathObject;
             if (expandedTreeNode.getChildCount() == 1) {
                 final TreeNode descendantTreeNode = expandedTreeNode.getChildAt(0);
 

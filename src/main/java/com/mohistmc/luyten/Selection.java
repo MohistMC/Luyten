@@ -1,13 +1,6 @@
 package com.mohistmc.luyten;
 
-public class Selection implements Comparable<Selection> {
-	public final Integer from;
-	public final Integer to;
-
-	public Selection(Integer from, Integer to) {
-		this.from = from;
-		this.to = to;
-	}
+public record Selection(Integer from, Integer to) implements Comparable<Selection> {
 
 	@Override
 	public int compareTo(Selection o) {

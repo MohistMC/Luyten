@@ -170,12 +170,7 @@ public class MainMenuBar extends JMenuBar {
 			}
 			
 			JMenuItem menuItem = new JMenuItem(path);
-			menuItem.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					mainWindow.getSelectedModel().loadFile(file);
-				}
-			});
+			menuItem.addActionListener(e -> mainWindow.getSelectedModel().loadFile(file));
 			recentFiles.add(menuItem);
 		}
 		
@@ -187,28 +182,20 @@ public class MainMenuBar extends JMenuBar {
 		JMenuItem menuItem = new JMenuItem("打开文件...");
 		menuItem.setAccelerator(
 				KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-		menuItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mainWindow.onOpenFileMenu();
-			}
-		});
+		menuItem.addActionListener(e -> mainWindow.onOpenFileMenu());
 		fileMenu.add(menuItem);
 		fileMenu.addSeparator();
 
 		menuItem = new JMenuItem("关闭文件");
 		menuItem.setAccelerator(
 				KeyStroke.getKeyStroke(KeyEvent.VK_W, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-		menuItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JTabbedPane house = mainWindow.getSelectedModel().house;
-				
-				if (e.getModifiers() != InputEvent.CTRL_MASK || house.getTabCount() == 0)
-					mainWindow.onCloseFileMenu();
-				else {
-					mainWindow.getSelectedModel().closeOpenTab(house.getSelectedIndex());
-				}
+		menuItem.addActionListener(e -> {
+			JTabbedPane house = mainWindow.getSelectedModel().house;
+
+			if (e.getModifiers() != InputEvent.CTRL_MASK || house.getTabCount() == 0)
+				mainWindow.onCloseFileMenu();
+			else {
+				mainWindow.getSelectedModel().closeOpenTab(house.getSelectedIndex());
 			}
 		});
 		fileMenu.add(menuItem);
@@ -217,23 +204,13 @@ public class MainMenuBar extends JMenuBar {
 		menuItem = new JMenuItem("另存为...");
 		menuItem.setAccelerator(
 				KeyStroke.getKeyStroke(KeyEvent.VK_E, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-		menuItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mainWindow.onSaveAsMenu();
-			}
-		});
+		menuItem.addActionListener(e -> mainWindow.onSaveAsMenu());
 		fileMenu.add(menuItem);
 
 		menuItem = new JMenuItem("保存全部...");
 		menuItem.setAccelerator(
 				KeyStroke.getKeyStroke(KeyEvent.VK_E, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-		menuItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mainWindow.onSaveAllMenu();
-			}
-		});
+		menuItem.addActionListener(e -> mainWindow.onSaveAllMenu());
 		fileMenu.add(menuItem);
 		fileMenu.addSeparator();
 
@@ -241,13 +218,10 @@ public class MainMenuBar extends JMenuBar {
 		fileMenu.add(recentFiles);
 		
 		clearRecentFiles = new JMenuItem("清除最近的文件");
-		clearRecentFiles.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				RecentFiles.paths.clear();
-				RecentFiles.save();
-				updateRecentFiles();
-			}
+		clearRecentFiles.addActionListener(e -> {
+			RecentFiles.paths.clear();
+			RecentFiles.save();
+			updateRecentFiles();
 		});
 		fileMenu.add(clearRecentFiles);
 		
@@ -258,12 +232,7 @@ public class MainMenuBar extends JMenuBar {
 		if (!("true".equals(System.getProperty("com.mohistmc.luyten.Luyten.running_in_osx")))) {
 			menuItem = new JMenuItem("Exit");
 			menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_MASK));
-			menuItem.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					mainWindow.onExitMenu();
-				}
-			});
+			menuItem.addActionListener(e -> mainWindow.onExitMenu());
 			fileMenu.add(menuItem);
 		}
 	}
@@ -293,58 +262,36 @@ public class MainMenuBar extends JMenuBar {
 		menuItem = new JMenuItem("全选");
 		menuItem.setAccelerator(
 				KeyStroke.getKeyStroke(KeyEvent.VK_A, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-		menuItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mainWindow.onSelectAllMenu();
-			}
-		});
+		menuItem.addActionListener(e -> mainWindow.onSelectAllMenu());
 		editMenu.add(menuItem);
 		editMenu.addSeparator();
 
 		menuItem = new JMenuItem("查询...");
 		menuItem.setAccelerator(
 				KeyStroke.getKeyStroke(KeyEvent.VK_F, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-		menuItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mainWindow.onFindMenu();
-			}
-		});
+		menuItem.addActionListener(e -> mainWindow.onFindMenu());
 		editMenu.add(menuItem);
 		
 		menuItem = new JMenuItem("查询下一个");
 		menuItem.setAccelerator(
 				KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0));
-		menuItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(mainWindow.findBox != null) mainWindow.findBox.fireExploreAction(true);
-			}
+		menuItem.addActionListener(e -> {
+			if(mainWindow.findBox != null) mainWindow.findBox.fireExploreAction(true);
 		});
 		editMenu.add(menuItem);
 		
 		menuItem = new JMenuItem("查询上一个");
 		menuItem.setAccelerator(
 				KeyStroke.getKeyStroke(KeyEvent.VK_F3, InputEvent.SHIFT_DOWN_MASK));
-		menuItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(mainWindow.findBox != null) mainWindow.findBox.fireExploreAction(false);
-			}
+		menuItem.addActionListener(e -> {
+			if(mainWindow.findBox != null) mainWindow.findBox.fireExploreAction(false);
 		});
 		editMenu.add(menuItem);
 
 		menuItem = new JMenuItem("查询全部");
 		menuItem.setAccelerator(
 				KeyStroke.getKeyStroke(KeyEvent.VK_G, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-		menuItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mainWindow.onFindAllMenu();
-
-			}
-		});
+		menuItem.addActionListener(e -> mainWindow.onFindAllMenu());
 		editMenu.add(menuItem);
 	}
 
@@ -405,61 +352,37 @@ public class MainMenuBar extends JMenuBar {
 		operationMenu.removeAll();
 		packageExplorerStyle = new JCheckBoxMenuItem("包显示类型");
 		packageExplorerStyle.setSelected(luytenPrefs.isPackageExplorerStyle());
-		packageExplorerStyle.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				luytenPrefs.setPackageExplorerStyle(packageExplorerStyle.isSelected());
-				mainWindow.onTreeSettingsChanged();
-			}
+		packageExplorerStyle.addActionListener(e -> {
+			luytenPrefs.setPackageExplorerStyle(packageExplorerStyle.isSelected());
+			mainWindow.onTreeSettingsChanged();
 		});
 		operationMenu.add(packageExplorerStyle);
 
 		filterOutInnerClassEntries = new JCheckBoxMenuItem("过滤内部类条目");
 		filterOutInnerClassEntries.setSelected(luytenPrefs.isFilterOutInnerClassEntries());
-		filterOutInnerClassEntries.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				luytenPrefs.setFilterOutInnerClassEntries(filterOutInnerClassEntries.isSelected());
-				mainWindow.onTreeSettingsChanged();
-			}
+		filterOutInnerClassEntries.addActionListener(e -> {
+			luytenPrefs.setFilterOutInnerClassEntries(filterOutInnerClassEntries.isSelected());
+			mainWindow.onTreeSettingsChanged();
 		});
 		operationMenu.add(filterOutInnerClassEntries);
 
 		singleClickOpenEnabled = new JCheckBoxMenuItem("单击打开");
 		singleClickOpenEnabled.setSelected(luytenPrefs.isSingleClickOpenEnabled());
-		singleClickOpenEnabled.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				luytenPrefs.setSingleClickOpenEnabled(singleClickOpenEnabled.isSelected());
-			}
-		});
+		singleClickOpenEnabled.addActionListener(e -> luytenPrefs.setSingleClickOpenEnabled(singleClickOpenEnabled.isSelected()));
 		operationMenu.add(singleClickOpenEnabled);
 
 		exitByEscEnabled = new JCheckBoxMenuItem("Esc退出");
 		exitByEscEnabled.setSelected(luytenPrefs.isExitByEscEnabled());
-		exitByEscEnabled.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				luytenPrefs.setExitByEscEnabled(exitByEscEnabled.isSelected());
-			}
-		});
+		exitByEscEnabled.addActionListener(e -> luytenPrefs.setExitByEscEnabled(exitByEscEnabled.isSelected()));
 		operationMenu.add(exitByEscEnabled);
 	}
 
 	private void buildSettingsMenu(JMenu settingsMenu) {
 		settingsMenu.removeAll();
-		ActionListener settingsChanged = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				new Thread() {
-					@Override
-					public void run() {
-						populateSettingsFromSettingsMenu();
-						mainWindow.onSettingsChanged();
-					}
-				}.start();
-			}
-		};
+		ActionListener settingsChanged = e -> new Thread(() -> {
+			populateSettingsFromSettingsMenu();
+			mainWindow.onSettingsChanged();
+		}).start();
 		flattenSwitchBlocks = new JCheckBoxMenuItem("Flatten Switch Blocks");
 		flattenSwitchBlocks.setSelected(settings.getFlattenSwitchBlocks());
 		flattenSwitchBlocks.addActionListener(settingsChanged);
@@ -555,61 +478,53 @@ public class MainMenuBar extends JMenuBar {
 		JMenuItem menuItem;
 		JMenu menuDebug = new JMenu("调试");
 		menuItem = new JMenuItem("列出JVM类");
-		menuItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mainWindow.onListLoadedClasses();
-			}
-		});
+		menuItem.addActionListener(e -> mainWindow.onListLoadedClasses());
 		menuDebug.add(menuItem);
 		helpMenu.add(menuDebug);
 		menuItem = new JMenuItem("关于");
-		menuItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				JPanel pane = new JPanel();
-				pane.setLayout(new BoxLayout(pane, BoxLayout.PAGE_AXIS));
-				JLabel title = new JLabel("Mohist-Luyten " + Luyten.VERSION);
-				title.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
-				pane.add(title);
-				pane.add(new JLabel("by MohistMC"));
-				String project = "https://github.com/MohistMC/Luyten";
-				JLabel link = new JLabel("<html><font color=\"#03bafc\"><u>" + project + "</u></font></html>");
-				link.setCursor(new Cursor(Cursor.HAND_CURSOR));
-				link.addMouseListener(new LinkListener(project, link));
-				pane.add(link);
-				pane.add(new JLabel("贡献由:"));
-				pane.add(new JLabel("zerdei, toonetown, dstmath"));
-				pane.add(new JLabel("virustotalop, xtrafrancyz,"));
-				pane.add(new JLabel("mbax, quitten, mstrobel,"));
-				pane.add(new JLabel("FisheyLP, and Syquel"));
-				pane.add(new JLabel(" "));
-				pane.add(new JLabel("Powered By:"));
-				String procyon = "https://github.com/mstrobel/procyon";
-				link = new JLabel("<html><font color=\"#03bafc\"><u>" + procyon + "</u></font></html>");
-				link.setCursor(new Cursor(Cursor.HAND_CURSOR));
-				link.addMouseListener(new LinkListener(procyon, link));
-				pane.add(link);
-				pane.add(new JLabel("Version: " + Procyon.version()));
-				pane.add(new JLabel("(c) 2021 Mike Strobel"));
-				String rsyntax = "https://github.com/bobbylight/RSyntaxTextArea";
-				link = new JLabel("<html><font color=\"#03bafc\"><u>" + rsyntax + "</u></font></html>");
-				link.setCursor(new Cursor(Cursor.HAND_CURSOR));
-				link.addMouseListener(new LinkListener(rsyntax, link));
-				pane.add(link);
-				pane.add(new JLabel("Version: 3.2.0"));
-				pane.add(new JLabel("(c) 2021 Robert Futrell"));
+		menuItem.addActionListener(event -> {
+			JPanel pane = new JPanel();
+			pane.setLayout(new BoxLayout(pane, BoxLayout.PAGE_AXIS));
+			JLabel title = new JLabel("Mohist-Luyten " + Luyten.VERSION);
+			title.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
+			pane.add(title);
+			pane.add(new JLabel("by MohistMC"));
+			String project = "https://github.com/MohistMC/Luyten";
+			JLabel link = new JLabel("<html><font color=\"#03bafc\"><u>" + project + "</u></font></html>");
+			link.setCursor(new Cursor(Cursor.HAND_CURSOR));
+			link.addMouseListener(new LinkListener(project, link));
+			pane.add(link);
+			pane.add(new JLabel("贡献由:"));
+			pane.add(new JLabel("zerdei, toonetown, dstmath"));
+			pane.add(new JLabel("virustotalop, xtrafrancyz,"));
+			pane.add(new JLabel("mbax, quitten, mstrobel,"));
+			pane.add(new JLabel("FisheyLP, and Syquel"));
+			pane.add(new JLabel(" "));
+			pane.add(new JLabel("Powered By:"));
+			String procyon = "https://github.com/mstrobel/procyon";
+			link = new JLabel("<html><font color=\"#03bafc\"><u>" + procyon + "</u></font></html>");
+			link.setCursor(new Cursor(Cursor.HAND_CURSOR));
+			link.addMouseListener(new LinkListener(procyon, link));
+			pane.add(link);
+			pane.add(new JLabel("Version: " + Procyon.version()));
+			pane.add(new JLabel("(c) 2021 Mike Strobel"));
+			String rsyntax = "https://github.com/bobbylight/RSyntaxTextArea";
+			link = new JLabel("<html><font color=\"#03bafc\"><u>" + rsyntax + "</u></font></html>");
+			link.setCursor(new Cursor(Cursor.HAND_CURSOR));
+			link.addMouseListener(new LinkListener(rsyntax, link));
+			pane.add(link);
+			pane.add(new JLabel("Version: 3.2.0"));
+			pane.add(new JLabel("(c) 2021 Robert Futrell"));
 
-				String darkLaf = "https://github.com/weisJ/darklaf/";
-				link = new JLabel("<html><font color=\"#03bafc\"><u>" + darkLaf + "</u></font></html>");
-				link.setCursor(new Cursor(Cursor.HAND_CURSOR));
-				link.addMouseListener(new LinkListener(darkLaf, link));
-				pane.add(link);
-				pane.add(new JLabel("Version: 2.6.1"));
-				pane.add(new JLabel("(c) 2021 Jannis Weis"));
-				pane.add(new JLabel(" "));
-				JOptionPane.showMessageDialog(null, pane);
-			}
+			String darkLaf = "https://github.com/weisJ/darklaf/";
+			link = new JLabel("<html><font color=\"#03bafc\"><u>" + darkLaf + "</u></font></html>");
+			link.setCursor(new Cursor(Cursor.HAND_CURSOR));
+			link.addMouseListener(new LinkListener(darkLaf, link));
+			pane.add(link);
+			pane.add(new JLabel("Version: 2.6.1"));
+			pane.add(new JLabel("(c) 2021 Jannis Weis"));
+			pane.add(new JLabel(" "));
+			JOptionPane.showMessageDialog(null, pane);
 		});
 		helpMenu.add(menuItem);
 	}
