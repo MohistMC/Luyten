@@ -1,12 +1,12 @@
 plugins {
     id 'java'
     id "edu.sc.seis.launch4j" version "2.5.4"
-    id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(19)
+        languageVersion = JavaLanguageVersion.of(17)
     }
 }
 
@@ -21,6 +21,7 @@ repositories {
     mavenCentral()
     maven { url = "https://jitpack.io" }
     maven { url = "https://maven.quiltmc.org/repository/release/" }
+    maven { url = "https://repo.xenondevs.xyz/third-party-releases/" }
 }
 
 dependencies {
@@ -33,7 +34,8 @@ dependencies {
     implementation 'com.github.weisj:darklaf-core:3.0.2'
     implementation 'com.taobao.arthas:arthas-common:3.6.7'
     implementation 'com.github.leibnitz27:cfr:0.152'
-    implementation 'org.quiltmc:quiltflower:1.9.0'
+    implementation 'org.vineflower:vineflower:1.9.1'
+    implementation 'org.jetbrains.kotlin:kotlinp:1.0-SNAPSHOT'
 }
 
 apply plugin: 'application'

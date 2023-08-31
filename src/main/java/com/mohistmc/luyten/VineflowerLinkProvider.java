@@ -18,7 +18,7 @@ import java.util.jar.Manifest;
  * @author Mgazul by MohistMC
  * @date 2023/4/13 23:50:45
  */
-public class QuiltflowerLinkProvider implements LinkProvider, IBytecodeProvider, IResultSaver {
+public class VineflowerLinkProvider implements LinkProvider, IBytecodeProvider, IResultSaver {
 
     private TypeDefinition type;
 

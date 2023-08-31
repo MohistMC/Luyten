@@ -33,6 +33,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.net.URI;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.ListIterator;
@@ -333,20 +334,12 @@ public class MainMenuBar extends JMenuBar {
     private void buildDecompilersMenu(JMenu decompilersMenu) {
         decompilersMenu.removeAll();
         decompilersGroup = new ButtonGroup();
-        JRadioButtonMenuItem a = new JRadioButtonMenuItem(new DecompilerAction("Procyon", Decompiler.PROCYON));
-        a.setSelected(Decompiler.PROCYON.equals(luytenPrefs.getDecompiler()));
-        decompilersGroup.add(a);
-        decompilersMenu.add(a);
-
-        a = new JRadioButtonMenuItem(new DecompilerAction("CFR", Decompiler.CFR));
-        a.setSelected(Decompiler.CFR.equals(luytenPrefs.getDecompiler()));
-        decompilersGroup.add(a);
-        decompilersMenu.add(a);
-
-        a = new JRadioButtonMenuItem(new DecompilerAction("Quiltflower", Decompiler.Quiltflower));
-        a.setSelected(Decompiler.Quiltflower.equals(luytenPrefs.getDecompiler()));
-        decompilersGroup.add(a);
-        decompilersMenu.add(a);
+        Arrays.stream(Decompiler.values()).forEach(dec -> {
+            JRadioButtonMenuItem mi = new JRadioButtonMenuItem(new DecompilerAction(dec.getProperName(), dec));
+            mi.setSelected(dec.equals(luytenPrefs.getDecompiler()));
+            decompilersGroup.add(mi);
+            decompilersMenu.add(mi);
+        });
     }
 
     private void buildOperationMenu(JMenu operationMenu) {
@@ -509,6 +502,23 @@ public class MainMenuBar extends JMenuBar {
             pane.add(link);
             pane.add(new JLabel("Version: " + Procyon.version()));
             pane.add(new JLabel("(c) 2021 Mike Strobel"));
+
+            String vineflower = "https://github.com/Vineflower/vineflower";
+            link = new JLabel("<html><font color=\"#03bafc\"><u>" + vineflower + "</u></font></html>");
+            link.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            link.addMouseListener(new LinkListener(vineflower, link));
+            pane.add(link);
+            pane.add(new JLabel("Version: 1.9.1"));
+            pane.add(new JLabel("(c) 2023 Vineflower Contributors"));
+
+            String kotlinp = "https://github.com/JetBrains/kotlin/tree/master/libraries/tools/kotlinp";
+            link = new JLabel("<html><font color=\"#03bafc\"><u>" + kotlinp + "</u></font></html>");
+            link.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            link.addMouseListener(new LinkListener(kotlinp, link));
+            pane.add(link);
+            pane.add(new JLabel("Version: 1.9.1"));
+            pane.add(new JLabel("(c) 2010-2023 JetBrains s.r.o. and Kotlin Programming Language contributors"));
+
             String rsyntax = "https://github.com/bobbylight/RSyntaxTextArea";
             link = new JLabel("<html><font color=\"#03bafc\"><u>" + rsyntax + "</u></font></html>");
             link.setCursor(new Cursor(Cursor.HAND_CURSOR));
