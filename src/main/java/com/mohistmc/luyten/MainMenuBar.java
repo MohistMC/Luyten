@@ -183,14 +183,14 @@ public class MainMenuBar extends JMenuBar {
         fileMenu.removeAll();
         JMenuItem menuItem = new JMenuItem("打开文件...");
         menuItem.setAccelerator(
-                KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+                KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         menuItem.addActionListener(e -> mainWindow.onOpenFileMenu());
         fileMenu.add(menuItem);
         fileMenu.addSeparator();
 
         menuItem = new JMenuItem("关闭文件");
         menuItem.setAccelerator(
-                KeyStroke.getKeyStroke(KeyEvent.VK_W, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+                KeyStroke.getKeyStroke(KeyEvent.VK_W, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         menuItem.addActionListener(e -> {
             JTabbedPane house = mainWindow.getSelectedModel().house;
 
@@ -205,13 +205,13 @@ public class MainMenuBar extends JMenuBar {
 
         menuItem = new JMenuItem("另存为...");
         menuItem.setAccelerator(
-                KeyStroke.getKeyStroke(KeyEvent.VK_E, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+                KeyStroke.getKeyStroke(KeyEvent.VK_E, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         menuItem.addActionListener(e -> mainWindow.onSaveAsMenu());
         fileMenu.add(menuItem);
 
         menuItem = new JMenuItem("保存全部...");
         menuItem.setAccelerator(
-                KeyStroke.getKeyStroke(KeyEvent.VK_E, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+                KeyStroke.getKeyStroke(KeyEvent.VK_E, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         menuItem.addActionListener(e -> mainWindow.onSaveAllMenu());
         fileMenu.add(menuItem);
         fileMenu.addSeparator();
@@ -243,19 +243,19 @@ public class MainMenuBar extends JMenuBar {
         editMenu.removeAll();
         JMenuItem menuItem = new JMenuItem("剪切");
         menuItem.setAccelerator(
-                KeyStroke.getKeyStroke(KeyEvent.VK_X, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+                KeyStroke.getKeyStroke(KeyEvent.VK_X, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         menuItem.setEnabled(false);
         editMenu.add(menuItem);
 
         menuItem = new JMenuItem("复制");
         menuItem.addActionListener(new DefaultEditorKit.CopyAction());
         menuItem.setAccelerator(
-                KeyStroke.getKeyStroke(KeyEvent.VK_C, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+                KeyStroke.getKeyStroke(KeyEvent.VK_C, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         editMenu.add(menuItem);
 
         menuItem = new JMenuItem("黏贴");
         menuItem.setAccelerator(
-                KeyStroke.getKeyStroke(KeyEvent.VK_V, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+                KeyStroke.getKeyStroke(KeyEvent.VK_V, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         menuItem.setEnabled(false);
         editMenu.add(menuItem);
 
@@ -263,14 +263,14 @@ public class MainMenuBar extends JMenuBar {
 
         menuItem = new JMenuItem("全选");
         menuItem.setAccelerator(
-                KeyStroke.getKeyStroke(KeyEvent.VK_A, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+                KeyStroke.getKeyStroke(KeyEvent.VK_A, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         menuItem.addActionListener(e -> mainWindow.onSelectAllMenu());
         editMenu.add(menuItem);
         editMenu.addSeparator();
 
         menuItem = new JMenuItem("查询...");
         menuItem.setAccelerator(
-                KeyStroke.getKeyStroke(KeyEvent.VK_F, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+                KeyStroke.getKeyStroke(KeyEvent.VK_F, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         menuItem.addActionListener(e -> mainWindow.onFindMenu());
         editMenu.add(menuItem);
 
@@ -292,7 +292,7 @@ public class MainMenuBar extends JMenuBar {
 
         menuItem = new JMenuItem("查询全部");
         menuItem.setAccelerator(
-                KeyStroke.getKeyStroke(KeyEvent.VK_G, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+                KeyStroke.getKeyStroke(KeyEvent.VK_G, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         menuItem.addActionListener(e -> mainWindow.onFindAllMenu());
         editMenu.add(menuItem);
     }

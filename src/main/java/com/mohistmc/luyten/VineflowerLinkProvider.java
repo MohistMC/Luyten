@@ -4,11 +4,12 @@ package com.mohistmc.luyten;
 import com.strobel.assembler.metadata.TypeDefinition;
 import org.jetbrains.java.decompiler.main.Fernflower;
 import org.jetbrains.java.decompiler.main.decompiler.PrintStreamLogger;
-import org.jetbrains.java.decompiler.main.extern.IBytecodeProvider;
+import org.jetbrains.java.decompiler.main.extern.IContextSource;
 import org.jetbrains.java.decompiler.main.extern.IResultSaver;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
@@ -18,7 +19,7 @@ import java.util.jar.Manifest;
  * @author Mgazul by MohistMC
  * @date 2023/4/13 23:50:45
  */
-public class VineflowerLinkProvider implements LinkProvider, IBytecodeProvider, IResultSaver {
+public class VineflowerLinkProvider implements LinkProvider, IContextSource, IResultSaver {
 
     private TypeDefinition type;
 
@@ -39,7 +40,7 @@ public class VineflowerLinkProvider implements LinkProvider, IBytecodeProvider, 
 
     @Override
     public void generateContent() {
-        var fernflower = new Fernflower(this, this, Collections.emptyMap(), new PrintStreamLogger(System.out));
+        var fernflower = new Fernflower(this, Collections.emptyMap(), new PrintStreamLogger(System.out));
         File singletonJar = null;
         try {
             singletonJar = ProcyonUtils.createSingletonTempJar(type.getInternalName() + ".class", bytecode);
@@ -91,11 +92,6 @@ public class VineflowerLinkProvider implements LinkProvider, IBytecodeProvider, 
     }
 
     @Override
-    public byte[] getBytecode(String externalPath, String internalPath) throws IOException {
-        return bytecode;
-    }
-
-    @Override
     public void saveFolder(String path) {
 
     }
@@ -123,6 +119,21 @@ public class VineflowerLinkProvider implements LinkProvider, IBytecodeProvider, 
     @Override
     public void closeArchive(String path, String archiveName) {
 
+    }
+
+    @Override
+    public String getName() {
+        return null;
+    }
+
+    @Override
+    public Entries getEntries() {
+        return null;
+    }
+
+    @Override
+    public InputStream getInputStream(String resource) throws IOException {
+        return null;
     }
     //</editor-fold>
 }
