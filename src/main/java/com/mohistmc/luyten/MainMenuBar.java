@@ -508,7 +508,7 @@ public class MainMenuBar extends JMenuBar {
             link.setCursor(new Cursor(Cursor.HAND_CURSOR));
             link.addMouseListener(new LinkListener(vineflower, link));
             pane.add(link);
-            pane.add(new JLabel("Version: 1.9.1"));
+            pane.add(new JLabel("Version: 1.9.3"));
             pane.add(new JLabel("(c) 2023 Vineflower Contributors"));
 
             String kotlinp = "https://github.com/JetBrains/kotlin/tree/master/libraries/tools/kotlinp";
@@ -516,7 +516,7 @@ public class MainMenuBar extends JMenuBar {
             link.setCursor(new Cursor(Cursor.HAND_CURSOR));
             link.addMouseListener(new LinkListener(kotlinp, link));
             pane.add(link);
-            pane.add(new JLabel("Version: 1.9.1"));
+            pane.add(new JLabel("Version: 1.0 SNAPSHOT"));
             pane.add(new JLabel("(c) 2010-2023 JetBrains s.r.o. and Kotlin Programming Language contributors"));
 
             String rsyntax = "https://github.com/bobbylight/RSyntaxTextArea";
