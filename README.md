@@ -2,6 +2,8 @@ Luyten
 ======
 **Recompiled to Java16+**
 
+**Translate to English**
+
 
 ## Powered by 
 ******

@@ -78,26 +78,26 @@ public class MainMenuBar extends JMenuBar {
         settings = configSaver.getDecompilerSettings();
         luytenPrefs = configSaver.getLuytenPreferences();
 
-        final JMenu fileMenu = new JMenu("文件");
+        final JMenu fileMenu = new JMenu("File");
         fileMenu.add(new JMenuItem("..."));
         this.add(fileMenu);
-        final JMenu editMenu = new JMenu("编辑");
+        final JMenu editMenu = new JMenu("Edit");
         editMenu.add(new JMenuItem("..."));
         this.add(editMenu);
-        final JMenu themesMenu = new JMenu("主题");
+        final JMenu themesMenu = new JMenu("Themes");
         themesMenu.add(new JMenuItem("..."));
         this.add(themesMenu);
         this.add(themesMenu);
-        final JMenu decompilersMenu = new JMenu("编译器");
+        final JMenu decompilersMenu = new JMenu("Decompiler");
         decompilersMenu.add(new JMenuItem("..."));
         this.add(decompilersMenu);
-        final JMenu operationMenu = new JMenu("操作");
+        final JMenu operationMenu = new JMenu("Operation");
         operationMenu.add(new JMenuItem("..."));
         this.add(operationMenu);
-        final JMenu settingsMenu = new JMenu("设置");
+        final JMenu settingsMenu = new JMenu("Settings");
         settingsMenu.add(new JMenuItem("..."));
         this.add(settingsMenu);
-        final JMenu helpMenu = new JMenu("帮助");
+        final JMenu helpMenu = new JMenu("Help");
         helpMenu.add(new JMenuItem("..."));
         this.add(helpMenu);
 
@@ -181,14 +181,14 @@ public class MainMenuBar extends JMenuBar {
 
     private void buildFileMenu(final JMenu fileMenu) {
         fileMenu.removeAll();
-        JMenuItem menuItem = new JMenuItem("打开文件...");
+        JMenuItem menuItem = new JMenuItem("Open File...");
         menuItem.setAccelerator(
                 KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         menuItem.addActionListener(e -> mainWindow.onOpenFileMenu());
         fileMenu.add(menuItem);
         fileMenu.addSeparator();
 
-        menuItem = new JMenuItem("关闭文件");
+        menuItem = new JMenuItem("Close file");
         menuItem.setAccelerator(
                 KeyStroke.getKeyStroke(KeyEvent.VK_W, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         menuItem.addActionListener(e -> {
@@ -203,23 +203,23 @@ public class MainMenuBar extends JMenuBar {
         fileMenu.add(menuItem);
         fileMenu.addSeparator();
 
-        menuItem = new JMenuItem("另存为...");
+        menuItem = new JMenuItem("Save as...");
         menuItem.setAccelerator(
                 KeyStroke.getKeyStroke(KeyEvent.VK_E, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         menuItem.addActionListener(e -> mainWindow.onSaveAsMenu());
         fileMenu.add(menuItem);
 
-        menuItem = new JMenuItem("保存全部...");
+        menuItem = new JMenuItem("Save All...");
         menuItem.setAccelerator(
                 KeyStroke.getKeyStroke(KeyEvent.VK_E, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         menuItem.addActionListener(e -> mainWindow.onSaveAllMenu());
         fileMenu.add(menuItem);
         fileMenu.addSeparator();
 
-        recentFiles = new JMenu("最近的文件");
+        recentFiles = new JMenu("Recent files");
         fileMenu.add(recentFiles);
 
-        clearRecentFiles = new JMenuItem("清除最近的文件");
+        clearRecentFiles = new JMenuItem("Clear recent files");
         clearRecentFiles.addActionListener(e -> {
             RecentFiles.paths.clear();
             RecentFiles.save();
@@ -241,19 +241,19 @@ public class MainMenuBar extends JMenuBar {
 
     private void buildEditMenu(JMenu editMenu) {
         editMenu.removeAll();
-        JMenuItem menuItem = new JMenuItem("剪切");
+        JMenuItem menuItem = new JMenuItem("Cut");
         menuItem.setAccelerator(
                 KeyStroke.getKeyStroke(KeyEvent.VK_X, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         menuItem.setEnabled(false);
         editMenu.add(menuItem);
 
-        menuItem = new JMenuItem("复制");
+        menuItem = new JMenuItem("Copy");
         menuItem.addActionListener(new DefaultEditorKit.CopyAction());
         menuItem.setAccelerator(
                 KeyStroke.getKeyStroke(KeyEvent.VK_C, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         editMenu.add(menuItem);
 
-        menuItem = new JMenuItem("黏贴");
+        menuItem = new JMenuItem("Paste");
         menuItem.setAccelerator(
                 KeyStroke.getKeyStroke(KeyEvent.VK_V, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         menuItem.setEnabled(false);
@@ -261,20 +261,20 @@ public class MainMenuBar extends JMenuBar {
 
         editMenu.addSeparator();
 
-        menuItem = new JMenuItem("全选");
+        menuItem = new JMenuItem("Select all");
         menuItem.setAccelerator(
                 KeyStroke.getKeyStroke(KeyEvent.VK_A, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         menuItem.addActionListener(e -> mainWindow.onSelectAllMenu());
         editMenu.add(menuItem);
         editMenu.addSeparator();
 
-        menuItem = new JMenuItem("查询...");
+        menuItem = new JMenuItem("Find...");
         menuItem.setAccelerator(
                 KeyStroke.getKeyStroke(KeyEvent.VK_F, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         menuItem.addActionListener(e -> mainWindow.onFindMenu());
         editMenu.add(menuItem);
 
-        menuItem = new JMenuItem("查询下一个");
+        menuItem = new JMenuItem("Find next");
         menuItem.setAccelerator(
                 KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0));
         menuItem.addActionListener(e -> {
@@ -282,7 +282,7 @@ public class MainMenuBar extends JMenuBar {
         });
         editMenu.add(menuItem);
 
-        menuItem = new JMenuItem("查询上一个");
+        menuItem = new JMenuItem("Find previous");
         menuItem.setAccelerator(
                 KeyStroke.getKeyStroke(KeyEvent.VK_F3, InputEvent.SHIFT_DOWN_MASK));
         menuItem.addActionListener(e -> {
@@ -290,7 +290,7 @@ public class MainMenuBar extends JMenuBar {
         });
         editMenu.add(menuItem);
 
-        menuItem = new JMenuItem("查询全部");
+        menuItem = new JMenuItem("Find all");
         menuItem.setAccelerator(
                 KeyStroke.getKeyStroke(KeyEvent.VK_G, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         menuItem.addActionListener(e -> mainWindow.onFindAllMenu());
@@ -344,7 +344,7 @@ public class MainMenuBar extends JMenuBar {
 
     private void buildOperationMenu(JMenu operationMenu) {
         operationMenu.removeAll();
-        packageExplorerStyle = new JCheckBoxMenuItem("包显示类型");
+        packageExplorerStyle = new JCheckBoxMenuItem("Package Explorer Style");
         packageExplorerStyle.setSelected(luytenPrefs.isPackageExplorerStyle());
         packageExplorerStyle.addActionListener(e -> {
             luytenPrefs.setPackageExplorerStyle(packageExplorerStyle.isSelected());
@@ -352,7 +352,7 @@ public class MainMenuBar extends JMenuBar {
         });
         operationMenu.add(packageExplorerStyle);
 
-        filterOutInnerClassEntries = new JCheckBoxMenuItem("过滤内部类条目");
+        filterOutInnerClassEntries = new JCheckBoxMenuItem("Filter Out Inner Class Entries");
         filterOutInnerClassEntries.setSelected(luytenPrefs.isFilterOutInnerClassEntries());
         filterOutInnerClassEntries.addActionListener(e -> {
             luytenPrefs.setFilterOutInnerClassEntries(filterOutInnerClassEntries.isSelected());
@@ -360,12 +360,12 @@ public class MainMenuBar extends JMenuBar {
         });
         operationMenu.add(filterOutInnerClassEntries);
 
-        singleClickOpenEnabled = new JCheckBoxMenuItem("单击打开");
+        singleClickOpenEnabled = new JCheckBoxMenuItem("Single Click Open");
         singleClickOpenEnabled.setSelected(luytenPrefs.isSingleClickOpenEnabled());
         singleClickOpenEnabled.addActionListener(e -> luytenPrefs.setSingleClickOpenEnabled(singleClickOpenEnabled.isSelected()));
         operationMenu.add(singleClickOpenEnabled);
 
-        exitByEscEnabled = new JCheckBoxMenuItem("Esc退出");
+        exitByEscEnabled = new JCheckBoxMenuItem("Exit By Esc");
         exitByEscEnabled.setSelected(luytenPrefs.isExitByEscEnabled());
         exitByEscEnabled.addActionListener(e -> luytenPrefs.setExitByEscEnabled(exitByEscEnabled.isSelected()));
         operationMenu.add(exitByEscEnabled);
@@ -382,43 +382,43 @@ public class MainMenuBar extends JMenuBar {
         flattenSwitchBlocks.addActionListener(settingsChanged);
         settingsMenu.add(flattenSwitchBlocks);
 
-        forceExplicitImports = new JCheckBoxMenuItem("显示完整的导入包");
+        forceExplicitImports = new JCheckBoxMenuItem("Force Explicit Imports");
         forceExplicitImports.setSelected(settings.getForceExplicitImports());
         forceExplicitImports.addActionListener(settingsChanged);
         settingsMenu.add(forceExplicitImports);
 
-        forceExplicitTypes = new JCheckBoxMenuItem("显示完整的类型");
+        forceExplicitTypes = new JCheckBoxMenuItem("Force Explicit Types");
         forceExplicitTypes.setSelected(settings.getForceExplicitTypeArguments());
         forceExplicitTypes.addActionListener(settingsChanged);
         settingsMenu.add(forceExplicitTypes);
 
-        showSyntheticMembers = new JCheckBoxMenuItem("显示合成成员");
+        showSyntheticMembers = new JCheckBoxMenuItem("Show Synthetic Members");
         showSyntheticMembers.setSelected(settings.getShowSyntheticMembers());
         showSyntheticMembers.addActionListener(settingsChanged);
         settingsMenu.add(showSyntheticMembers);
 
-        excludeNestedTypes = new JCheckBoxMenuItem("排除嵌套类型");
+        excludeNestedTypes = new JCheckBoxMenuItem("Exclude Nested Types");
         excludeNestedTypes.setSelected(settings.getExcludeNestedTypes());
         excludeNestedTypes.addActionListener(settingsChanged);
         settingsMenu.add(excludeNestedTypes);
 
-        retainRedundantCasts = new JCheckBoxMenuItem("保留冗余演员阵容");
+        retainRedundantCasts = new JCheckBoxMenuItem("Retain Redundant Casts");
         retainRedundantCasts.setSelected(settings.getRetainRedundantCasts());
         retainRedundantCasts.addActionListener(settingsChanged);
         settingsMenu.add(retainRedundantCasts);
 
-        unicodeReplacement = new JCheckBoxMenuItem("启用Unicode替换");
+        unicodeReplacement = new JCheckBoxMenuItem("Enable Unicode Replacement");
         unicodeReplacement.setSelected(settings.isUnicodeOutputEnabled());
         unicodeReplacement.addActionListener(settingsChanged);
         settingsMenu.add(unicodeReplacement);
 
-        debugLineNumbers = new JCheckBoxMenuItem("显示调试行号");
+        debugLineNumbers = new JCheckBoxMenuItem("Show Debug Line Numbers");
         debugLineNumbers.setSelected(settings.getShowDebugLineNumbers());
         debugLineNumbers.addActionListener(settingsChanged);
         settingsMenu.add(debugLineNumbers);
 
-        JMenu debugSettingsMenu = new JMenu("调试设置");
-        showDebugInfo = new JCheckBoxMenuItem("包括错误诊断");
+        JMenu debugSettingsMenu = new JMenu("Debug Settings");
+        showDebugInfo = new JCheckBoxMenuItem("Include Error Diagnostics");
         showDebugInfo.setSelected(settings.getIncludeErrorDiagnostics());
         showDebugInfo.addActionListener(settingsChanged);
 
@@ -470,12 +470,12 @@ public class MainMenuBar extends JMenuBar {
     private void buildHelpMenu(JMenu helpMenu) {
         helpMenu.removeAll();
         JMenuItem menuItem;
-        JMenu menuDebug = new JMenu("调试");
-        menuItem = new JMenuItem("列出JVM类");
+        JMenu menuDebug = new JMenu("Debug");
+        menuItem = new JMenuItem("List JVM Classes");
         menuItem.addActionListener(e -> mainWindow.onListLoadedClasses());
         menuDebug.add(menuItem);
         helpMenu.add(menuDebug);
-        menuItem = new JMenuItem("关于");
+        menuItem = new JMenuItem("About");
         menuItem.addActionListener(event -> {
             JPanel pane = new JPanel();
             pane.setLayout(new BoxLayout(pane, BoxLayout.PAGE_AXIS));
@@ -488,7 +488,7 @@ public class MainMenuBar extends JMenuBar {
             link.setCursor(new Cursor(Cursor.HAND_CURSOR));
             link.addMouseListener(new LinkListener(project, link));
             pane.add(link);
-            pane.add(new JLabel("贡献由:"));
+            pane.add(new JLabel("Contributions By:"));
             pane.add(new JLabel("zerdei, toonetown, dstmath"));
             pane.add(new JLabel("virustotalop, xtrafrancyz,"));
             pane.add(new JLabel("mbax, quitten, mstrobel,"));
