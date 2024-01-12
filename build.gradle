@@ -25,17 +25,17 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.fifesoft:rsyntaxtextarea:3.2.0'
+    implementation 'com.fifesoft:rsyntaxtextarea:3.3.4'
     implementation 'com.apple:AppleJavaExtensions:1.4'
     implementation 'org.bitbucket.mstrobel:procyon-core:0.6.0'
     implementation 'org.bitbucket.mstrobel:procyon-expressions:0.6.0'
     implementation 'org.bitbucket.mstrobel:procyon-reflection:0.6.0'
     implementation 'org.bitbucket.mstrobel:procyon-compilertools:0.6.0'
     implementation 'com.github.weisj:darklaf-core:3.0.2'
-    implementation 'com.taobao.arthas:arthas-common:3.6.7'
+    implementation 'com.taobao.arthas:arthas-common:3.7.2'
     implementation 'com.github.leibnitz27:cfr:0.152'
-    implementation 'org.vineflower:vineflower:1.9.1'
-    implementation 'org.jetbrains.kotlin:kotlinp:1.8.10'
+    implementation 'org.vineflower:vineflower:1.9.3'
+    implementation 'org.jetbrains.kotlin:kotlinp:1.0-SNAPSHOT'
 }
 
 apply plugin: 'application'

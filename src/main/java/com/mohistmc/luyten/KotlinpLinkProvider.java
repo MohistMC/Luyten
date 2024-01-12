@@ -8,11 +8,11 @@ import java.util.Map;
 import java.util.Set;
 
 public class KotlinpLinkProvider implements LinkProvider {
-    
+
     private static final String[] ARGS = {"-verbose"};
-    
+
     private String content;
-    
+
     @Override
     public String getTextContent() {
         return content;
