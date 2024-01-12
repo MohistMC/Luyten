@@ -35,7 +35,7 @@ dependencies {
     implementation 'com.taobao.arthas:arthas-common:3.6.7'
     implementation 'com.github.leibnitz27:cfr:0.152'
     implementation 'org.vineflower:vineflower:1.9.1'
-    implementation 'org.jetbrains.kotlin:kotlinp:1.0-SNAPSHOT'
+    implementation 'org.jetbrains.kotlin:kotlinp:1.8.10'
 }
 
 apply plugin: 'application'
