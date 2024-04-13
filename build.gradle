@@ -33,7 +33,7 @@ dependencies {
     implementation 'com.github.weisj:darklaf-core:3.0.2'
     implementation 'com.taobao.arthas:arthas-common:3.7.2'
     implementation 'com.github.leibnitz27:cfr:0.152'
-    implementation 'org.vineflower:vineflower:1.9.3'
+    implementation 'org.vineflower:vineflower:1.10.0'
     implementation 'com.bennyhuo.kotlin:kotlinp:1.8.10'
 }
 
