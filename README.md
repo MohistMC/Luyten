@@ -4,7 +4,7 @@ Luyten
 
 **Translate to English**
 
-**To using , lets run with java >= 17
+**To using, lets run with java >= 17**
 
 ## Powered by 
 ******
