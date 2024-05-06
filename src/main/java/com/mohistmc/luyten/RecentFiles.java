@@ -38,14 +38,14 @@ public class RecentFiles {
             return;
         }
 
-        if (paths.size() >= 10) paths.remove(0);
+        if (paths.size() >= 10) paths.removeFirst();
         paths.add(path);
 
         save();
     }
 
     public static void save() {
-        if (paths.size() == 0) {
+        if (paths.isEmpty()) {
             prefs.put("recentFiles", "");
             return;
         }

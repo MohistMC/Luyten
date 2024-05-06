@@ -67,7 +67,7 @@ public class DropListener implements DropTargetListener {
                             return;
                         }
                         if (list.size() == 1) {
-                            mainWindow.onFileDropped(list.get(0));
+                            mainWindow.onFileDropped(list.getFirst());
                         }
                         event.getDropTargetContext().dropComplete(true);
                         handled = true;

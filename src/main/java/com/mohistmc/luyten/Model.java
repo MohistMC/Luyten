@@ -11,8 +11,10 @@ import com.strobel.core.VerifyArgument;
 import com.strobel.decompiler.DecompilationOptions;
 import com.strobel.decompiler.DecompilerSettings;
 import com.strobel.decompiler.PlainTextOutput;
+import java.awt.Font;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.Theme;
+import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.AbstractAction;
@@ -637,7 +639,7 @@ public class Model extends JSplitPane {
 
     public DefaultMutableTreeNode loadNodesByUserObj(DefaultMutableTreeNode node, List<TreeNodeUserObject> args) {
         if (args.size() > 0) {
-            TreeNodeUserObject name = args.remove(0);
+            TreeNodeUserObject name = args.removeFirst();
             DefaultMutableTreeNode nod = getChild(node, name);
             if (nod == null)
                 nod = new DefaultMutableTreeNode(name);
