@@ -12,6 +12,8 @@ import com.strobel.decompiler.DecompilationOptions;
 import com.strobel.decompiler.DecompilerSettings;
 import com.strobel.decompiler.PlainTextOutput;
 import java.awt.Font;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.Theme;
 import org.fife.ui.rtextarea.RTextArea;
@@ -198,7 +200,7 @@ public class Model extends JSplitPane {
             try {
                 final String title = open.name;
                 RTextScrollPane rTextScrollPane = open.scrollPane;
-                int index = house.indexOfTab(title);
+                int index = house.indexOfComponent(rTextScrollPane);
                 if (index > -1 && house.getTabComponentAt(index) != open.scrollPane) {
                     index = -1;
                     for (int i = 0; i < house.getTabCount(); i++) {
@@ -213,7 +215,7 @@ public class Model extends JSplitPane {
                     index = house.indexOfComponent(rTextScrollPane);
                     house.setSelectedIndex(index);
                     Tab ct = new Tab(title, () -> {
-                        int index1 = house.indexOfTab(title);
+                        int index1 = house.indexOfComponent(rTextScrollPane);
                         closeOpenTab(index1);
                     });
                     house.setTabComponentAt(index, ct);
@@ -456,7 +458,15 @@ public class Model extends JSplitPane {
             return;
         }
 
-        // build tab content and check if file is binary
+        // simple isBinary check
+        boolean isBinary = false;
+        try {
+            String type = Files.probeContentType(Paths.get(path));
+            if (type == null || !type.startsWith("text")) isBinary = true;
+        } catch (Throwable ignored) {
+            // If it fails, it fails - does not matter!
+        }
+        // build tab content and again check if file is binary
         double ascii = 0;
         double other = 0;
         StringBuilder sb = new StringBuilder();
@@ -473,7 +483,7 @@ public class Model extends JSplitPane {
             }
         }
 
-        if (other != 0 && other / (ascii + other) > 0.5) {
+        if (isBinary && other != 0 && other / (ascii + other) > 0.5) {
             throw new FileIsBinaryException();
         }
 
@@ -494,7 +504,8 @@ public class Model extends JSplitPane {
                 return;
             }
             for (OpenFile open : hmap) {
-                if (house.indexOfTab(open.name) == selectedIndex && open.getType() != null && !open.isContentValid()) {
+                if (house.indexOfComponent(open.scrollPane) == selectedIndex
+                        && open.getType() != null && !open.isContentValid()) {
                     updateOpenClass(open);
                     break;
                 }
@@ -539,9 +550,8 @@ public class Model extends JSplitPane {
     }
 
     private boolean isTabInForeground(OpenFile open) {
-        String title = open.name;
         int selectedIndex = house.getSelectedIndex();
-        return (selectedIndex >= 0 && selectedIndex == house.indexOfTab(title));
+        return (selectedIndex >= 0 && selectedIndex == house.indexOfComponent(open.scrollPane));
     }
 
     final class State implements AutoCloseable {
@@ -866,7 +876,7 @@ public class Model extends JSplitPane {
 
     public void closeFile() {
         for (OpenFile co : hmap) {
-            int pos = house.indexOfTab(co.name);
+            int pos = house.indexOfComponent(co.scrollPane);
             if (pos >= 0)
                 house.remove(pos);
             co.close();
@@ -965,7 +975,7 @@ public class Model extends JSplitPane {
                 JTabbedPane pane = new JTabbedPane();
                 pane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
                 pane.addTab("title", open.scrollPane);
-                pane.setSelectedIndex(pane.indexOfTab("title"));
+                pane.setSelectedIndex(pane.indexOfComponent(open.scrollPane));
             } catch (Exception e) {
                 Luyten.showExceptionDialog("Exception!", e);
             }

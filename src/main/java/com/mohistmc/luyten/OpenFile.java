@@ -164,7 +164,7 @@ public class OpenFile implements SyntaxConstants {
 
         theme.apply(textArea);
 
-        textArea.setFont(new Font(textArea.getFont().getName(), textArea.getFont().getStyle(), luytenPrefs.getFont_size()));
+        textArea.setFont(textArea.getFont().deriveFont((float) luytenPrefs.getFont_size()));
 
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         final JScrollBar verticalScrollbar = scrollPane.getVerticalScrollBar();
@@ -183,6 +183,10 @@ public class OpenFile implements SyntaxConstants {
 
         textArea.setHyperlinksEnabled(true);
         textArea.setLinkScanningMask(InputEvent.CTRL_DOWN_MASK);
+
+        textArea.addHyperlinkListener(e -> {
+            // Empty Hyperlink listener as a workaround
+        });
 
         textArea.setLinkGenerator((textArea, offs) -> {
             final String uniqueStr = getUniqueStrForOffset(offs);
@@ -228,9 +232,10 @@ public class OpenFile implements SyntaxConstants {
                 Font font = textArea.getFont();
                 int size = font.getSize();
                 if (e.getWheelRotation() > 0) {
-                    textArea.setFont(new Font(font.getName(), font.getStyle(), --size >= 8 ? --size : 8));
+                    size = Math.max(size - 1, 8);
+                    textArea.setFont(font.deriveFont((float) size));
                 } else {
-                    textArea.setFont(new Font(font.getName(), font.getStyle(), ++size));
+                    textArea.setFont(font.deriveFont((float) ++size));
                 }
                 luytenPrefs.setFont_size(size);
             } else {

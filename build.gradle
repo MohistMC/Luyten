@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.fifesoft:rsyntaxtextarea:3.4.0'
+    implementation 'com.fifesoft:rsyntaxtextarea:3.4.1'
     implementation 'com.apple:AppleJavaExtensions:1.4'
     implementation 'org.bitbucket.mstrobel:procyon-core:0.6.0'
     implementation 'org.bitbucket.mstrobel:procyon-expressions:0.6.0'
