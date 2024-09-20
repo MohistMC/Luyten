@@ -386,6 +386,7 @@ public class Model extends JSplitPane {
             getLabel().setText("File not found: " + name);
         } catch (FileIsBinaryException e) {
             getLabel().setText("Binary resource: " + name);
+            e.printStackTrace();
         } catch (TooLargeFileException e) {
             getLabel().setText("File is too large: " + name + " - size: " + e.getReadableFileSize());
         } catch (Exception e) {
@@ -443,56 +444,61 @@ public class Model extends JSplitPane {
 
     public void extractSimpleFileEntryToTextPane(InputStream inputStream, String tabTitle, String path)
             throws Exception {
-        if (inputStream == null || tabTitle == null || tabTitle.trim().length() < 1 || path == null) {
+        if (inputStream == null || tabTitle == null || tabTitle.trim().isEmpty() || path == null) {
             throw new FileEntryNotFoundException();
         }
         OpenFile sameTitledOpen = null;
         for (OpenFile nextOpen : hmap) {
-            if (tabTitle.equals(nextOpen.name) && path.equals(nextOpen.path)) {
+            if (tabTitle.equals(nextOpen.name)) {
                 sameTitledOpen = nextOpen;
                 break;
             }
         }
-        if (sameTitledOpen != null) {
+        if (sameTitledOpen != null && path.equals(sameTitledOpen.path)) {
             addOrSwitchToTab(sameTitledOpen);
             return;
         }
 
-        // simple isBinary check
-        boolean isBinary = false;
-        try {
-            String type = Files.probeContentType(Paths.get(path));
-            if (type == null || !type.startsWith("text")) isBinary = true;
-        } catch (Throwable ignored) {
-            // If it fails, it fails - does not matter!
-        }
-        // build tab content and again check if file is binary
-        double ascii = 0;
-        double other = 0;
+        // build tab content
         StringBuilder sb = new StringBuilder();
+        long nonprintableCharactersCount = 0;
         try (InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-             BufferedReader reader = new BufferedReader(inputStreamReader)) {
+             BufferedReader reader = new BufferedReader(inputStreamReader);) {
             String line;
             while ((line = reader.readLine()) != null) {
                 sb.append(line).append("\n");
-                // Source: https://stackoverflow.com/a/13533390/5894824
-                for (byte b : line.getBytes()) {
-                    if (b == 0x09 || b == 0x0A || b == 0x0C || b == 0x0D || (b >= 0x20 && b <= 0x7E)) ascii++;
-                    else other++;
+
+                for (byte nextByte : line.getBytes()) {
+                    if (nextByte <= 0) {
+                        nonprintableCharactersCount++;
+                    }
                 }
+
             }
         }
 
-        if (isBinary && other != 0 && other / (ascii + other) > 0.5) {
+        // guess binary or text
+        String extension = "." + tabTitle.replaceAll("^[^.]*$", "").replaceAll("[^.]*\\.", "");
+        boolean isTextFile = (OpenFile.WELL_KNOWN_TEXT_FILE_EXTENSIONS.contains(extension)
+                || nonprintableCharactersCount < sb.length() / 5);
+        if (!isTextFile) {
             throw new FileIsBinaryException();
         }
 
         // open tab
-        OpenFile open = new OpenFile(tabTitle, path, getTheme(), mainWindow, this);
-        open.setDecompilerReferences(metadataSystem, settings, decompilationOptions);
-        open.setContent(sb.toString());
-        hmap.add(open);
-        addOrSwitchToTab(open);
+        if (sameTitledOpen != null) {
+            sameTitledOpen.path = path;
+            sameTitledOpen.setDecompilerReferences(metadataSystem, settings, decompilationOptions);
+            sameTitledOpen.resetScrollPosition();
+            sameTitledOpen.setContent(sb.toString());
+            addOrSwitchToTab(sameTitledOpen);
+        } else {
+            OpenFile open = new OpenFile(tabTitle, path, theme, mainWindow, this);
+            open.setDecompilerReferences(metadataSystem, settings, decompilationOptions);
+            open.setContent(sb.toString());
+            hmap.add(open);
+            addOrSwitchToTab(open);
+        }
     }
 
     private class TabChangeListener implements ChangeListener {
