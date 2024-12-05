@@ -11,8 +11,12 @@ import com.strobel.core.VerifyArgument;
 import com.strobel.decompiler.DecompilationOptions;
 import com.strobel.decompiler.DecompilerSettings;
 import com.strobel.decompiler.PlainTextOutput;
+import java.awt.Font;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.Theme;
+import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.AbstractAction;
@@ -196,7 +200,7 @@ public class Model extends JSplitPane {
             try {
                 final String title = open.name;
                 RTextScrollPane rTextScrollPane = open.scrollPane;
-                int index = house.indexOfTab(title);
+                int index = house.indexOfComponent(rTextScrollPane);
                 if (index > -1 && house.getTabComponentAt(index) != open.scrollPane) {
                     index = -1;
                     for (int i = 0; i < house.getTabCount(); i++) {
@@ -211,7 +215,7 @@ public class Model extends JSplitPane {
                     index = house.indexOfComponent(rTextScrollPane);
                     house.setSelectedIndex(index);
                     Tab ct = new Tab(title, () -> {
-                        int index1 = house.indexOfTab(title);
+                        int index1 = house.indexOfComponent(rTextScrollPane);
                         closeOpenTab(index1);
                     });
                     house.setTabComponentAt(index, ct);
@@ -382,6 +386,7 @@ public class Model extends JSplitPane {
             getLabel().setText("File not found: " + name);
         } catch (FileIsBinaryException e) {
             getLabel().setText("Binary resource: " + name);
+            e.printStackTrace();
         } catch (TooLargeFileException e) {
             getLabel().setText("File is too large: " + name + " - size: " + e.getReadableFileSize());
         } catch (Exception e) {
@@ -439,48 +444,61 @@ public class Model extends JSplitPane {
 
     public void extractSimpleFileEntryToTextPane(InputStream inputStream, String tabTitle, String path)
             throws Exception {
-        if (inputStream == null || tabTitle == null || tabTitle.trim().length() < 1 || path == null) {
+        if (inputStream == null || tabTitle == null || tabTitle.trim().isEmpty() || path == null) {
             throw new FileEntryNotFoundException();
         }
         OpenFile sameTitledOpen = null;
         for (OpenFile nextOpen : hmap) {
-            if (tabTitle.equals(nextOpen.name) && path.equals(nextOpen.path)) {
+            if (tabTitle.equals(nextOpen.name)) {
                 sameTitledOpen = nextOpen;
                 break;
             }
         }
-        if (sameTitledOpen != null) {
+        if (sameTitledOpen != null && path.equals(sameTitledOpen.path)) {
             addOrSwitchToTab(sameTitledOpen);
             return;
         }
 
-        // build tab content and check if file is binary
-        double ascii = 0;
-        double other = 0;
+        // build tab content
         StringBuilder sb = new StringBuilder();
+        long nonprintableCharactersCount = 0;
         try (InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-             BufferedReader reader = new BufferedReader(inputStreamReader)) {
+             BufferedReader reader = new BufferedReader(inputStreamReader);) {
             String line;
             while ((line = reader.readLine()) != null) {
                 sb.append(line).append("\n");
-                // Source: https://stackoverflow.com/a/13533390/5894824
-                for (byte b : line.getBytes()) {
-                    if (b == 0x09 || b == 0x0A || b == 0x0C || b == 0x0D || (b >= 0x20 && b <= 0x7E)) ascii++;
-                    else other++;
+
+                for (byte nextByte : line.getBytes()) {
+                    if (nextByte <= 0) {
+                        nonprintableCharactersCount++;
+                    }
                 }
+
             }
         }
 
-        if (other != 0 && other / (ascii + other) > 0.5) {
+        // guess binary or text
+        String extension = "." + tabTitle.replaceAll("^[^.]*$", "").replaceAll("[^.]*\\.", "");
+        boolean isTextFile = (OpenFile.WELL_KNOWN_TEXT_FILE_EXTENSIONS.contains(extension)
+                || nonprintableCharactersCount < sb.length() / 5);
+        if (!isTextFile) {
             throw new FileIsBinaryException();
         }
 
         // open tab
-        OpenFile open = new OpenFile(tabTitle, path, getTheme(), mainWindow, this);
-        open.setDecompilerReferences(metadataSystem, settings, decompilationOptions);
-        open.setContent(sb.toString());
-        hmap.add(open);
-        addOrSwitchToTab(open);
+        if (sameTitledOpen != null) {
+            sameTitledOpen.path = path;
+            sameTitledOpen.setDecompilerReferences(metadataSystem, settings, decompilationOptions);
+            sameTitledOpen.resetScrollPosition();
+            sameTitledOpen.setContent(sb.toString());
+            addOrSwitchToTab(sameTitledOpen);
+        } else {
+            OpenFile open = new OpenFile(tabTitle, path, theme, mainWindow, this);
+            open.setDecompilerReferences(metadataSystem, settings, decompilationOptions);
+            open.setContent(sb.toString());
+            hmap.add(open);
+            addOrSwitchToTab(open);
+        }
     }
 
     private class TabChangeListener implements ChangeListener {
@@ -492,7 +510,8 @@ public class Model extends JSplitPane {
                 return;
             }
             for (OpenFile open : hmap) {
-                if (house.indexOfTab(open.name) == selectedIndex && open.getType() != null && !open.isContentValid()) {
+                if (house.indexOfComponent(open.scrollPane) == selectedIndex
+                        && open.getType() != null && !open.isContentValid()) {
                     updateOpenClass(open);
                     break;
                 }
@@ -537,9 +556,8 @@ public class Model extends JSplitPane {
     }
 
     private boolean isTabInForeground(OpenFile open) {
-        String title = open.name;
         int selectedIndex = house.getSelectedIndex();
-        return (selectedIndex >= 0 && selectedIndex == house.indexOfTab(title));
+        return (selectedIndex >= 0 && selectedIndex == house.indexOfComponent(open.scrollPane));
     }
 
     final class State implements AutoCloseable {
@@ -637,7 +655,7 @@ public class Model extends JSplitPane {
 
     public DefaultMutableTreeNode loadNodesByUserObj(DefaultMutableTreeNode node, List<TreeNodeUserObject> args) {
         if (args.size() > 0) {
-            TreeNodeUserObject name = args.remove(0);
+            TreeNodeUserObject name = args.removeFirst();
             DefaultMutableTreeNode nod = getChild(node, name);
             if (nod == null)
                 nod = new DefaultMutableTreeNode(name);
@@ -864,7 +882,7 @@ public class Model extends JSplitPane {
 
     public void closeFile() {
         for (OpenFile co : hmap) {
-            int pos = house.indexOfTab(co.name);
+            int pos = house.indexOfComponent(co.scrollPane);
             if (pos >= 0)
                 house.remove(pos);
             co.close();
@@ -963,7 +981,7 @@ public class Model extends JSplitPane {
                 JTabbedPane pane = new JTabbedPane();
                 pane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
                 pane.addTab("title", open.scrollPane);
-                pane.setSelectedIndex(pane.indexOfTab("title"));
+                pane.setSelectedIndex(pane.indexOfComponent(open.scrollPane));
             } catch (Exception e) {
                 Luyten.showExceptionDialog("Exception!", e);
             }
