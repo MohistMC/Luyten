@@ -19,7 +19,6 @@
 *.iml
 *.ipr
 *.iws
-.idea/
 
 # patch
 *.rej

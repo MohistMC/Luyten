@@ -37,7 +37,7 @@ dependencies {
 }
 
 apply plugin: 'application'
-mainClassName = 'com.mohistmc.luyten.Luyten'
+mainClassName = 'com.mohistmc.mowudecomp.MoWuDecomp'
 application {
     mainClass = mainClassName
 }
@@ -45,8 +45,8 @@ application {
 jar {
     manifest {
         attributes(
-                'Premain-Class': 'com.mohistmc.luyten.JarLoader',
-                'Launcher-Agent-Class': 'com.mohistmc.luyten.JarLoader',
+                'Premain-Class': 'com.mohistmc.mowudecomp.JarLoader',
+                'Launcher-Agent-Class': 'com.mohistmc.mowudecomp.JarLoader',
                 'Main-Class': mainClassName
         )
     }
@@ -57,6 +57,6 @@ jar.dependsOn(shadowJar)
 
 launch4j {
     mainClassName = mainClassName
-    icon = "${projectDir}/luyten.ico"
+    icon = "${projectDir}/mowudecomp.ico"
     jarTask = project.tasks.shadowJar
 }
